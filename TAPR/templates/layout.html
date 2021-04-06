@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel=stylesheet type=text/css href="{{ url_for('static',
+  filename='style.css') }}">
+        <title>TAPR</title>
+    </head>
+    <body>
+        <div id=header></div>
+        <div id=content>
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div id=footer></div>
+    </body>
+</html>
