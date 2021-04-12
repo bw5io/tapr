@@ -35,7 +35,7 @@
                     <ul class="navbar-nav me-auto">
                       {% if current_user.is_authenticated %}
                       <span class="navbar-text">
-                          Hello, {{ current_user.username }}!
+                          Hello, {{ current_user.first_name }}!
                       </span>
                       <li class="nav-item">
                           <a class="nav-link active" aria-current="page" href="{{ url_for('logout') }}">Logout</a>
@@ -45,10 +45,10 @@
                         Hello, Guest!
                       </span>
                       <li class="nav-item">
-                        <a class="nav-link" href="">Login</a>
+                        <a class="nav-link" href="{{url_for('login')}}">Login</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="">Register</a>
+                        <a class="nav-link" href="{{url_for('register')}}">Register</a>
                       </li>
                       {% endif %}
                     </ul>

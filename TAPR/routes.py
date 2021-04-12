@@ -49,6 +49,6 @@ def register():
         login_user(user)
         flash("Congratulations! Your registration has completed.")
         return redirect(url_for('home'))
-    else:
-        flash_errors(form)
+    # else:
+    #     flash_errors(form)
     return render_template('register.html', title='Register', form=form)

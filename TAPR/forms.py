@@ -4,12 +4,12 @@ from wtforms.validators import *
 from TAPR.models import *
 
 class RegistrationForm(FlaskForm):
-    id = StringField('ID *', validators=[DataRequired(), Length(min=3, max=15, message="Username should be 3 to 15 characters long.")],render_kw={"placeholder":"3 to 15 characters long"})
-    email = StringField('Email *', validators=[DataRequired(), Email()])
-    password = PasswordField('Password *', validators=[DataRequired(),Regexp('^(?=.*\d).{8,16}$',message="Your password should be between 8 and 16 characters long.")], render_kw={"placeholder":"8 to 16 characters long"})
-    confirm_password=PasswordField('Confirm Password *', validators=[DataRequired(),EqualTo('password',message="Two Passwords are not the same.")])
-    first_name = StringField('First Name *', validators=[DataRequired()])
-    last_name = StringField('Last Name *', validators=[DataRequired()])
+    id = StringField('ID', validators=[DataRequired(), Length(min=3, max=15, message="Username should be 3 to 15 characters long.")],render_kw={"placeholder":"3 to 15 characters long"})
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired(),Regexp('^(?=.*\d).{8,16}$',message="Your password should be between 8 and 16 characters long.")], render_kw={"placeholder":"8 to 16 characters long"})
+    confirm_password=PasswordField('Confirm Password', validators=[DataRequired(),EqualTo('password',message="Two Passwords are not the same.")])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
     submit=SubmitField('Register')
 
     def validate_username(self, username):

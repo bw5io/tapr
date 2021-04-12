@@ -6,20 +6,43 @@
 
 {% block content %}
 
-<div class="formpage">
-<div class="space"></div>
-<form action="" method="post">
-    {{form.csrf_token}}
-    <p class="form">{{form.id.label(class_="lb")}}{{form.id(class_="inputline")}}</p>
-    <p class="form">{{form.email.label(class_="lb")}}{{form.email(class_="inputline")}}</p>
-    <p class="form">{{form.password.label(class_="lb")}}{{form.password(class_="inputline")}}</p>
-    <p class="form">{{form.confirm_password.label(class_="lb")}}{{form.confirm_password(class_="inputline")}}</p>
-    <p class="form">{{form.first_name.label(class_="lb")}}{{form.first_name(class_="inputline")}}</p>
-    <p class="form">{{form.last_name.label(class_="lb")}}{{form.last_name(class_="inputline")}}</p>
-    <div class="space"></div>
-    <p><a href="{{url_for('login')}}">Registered?</a></p>
-    <div class="space"></div>
-    <p> {{form.submit(class_="btn")}}</p>
-</form> 
+<form class = "row" method="POST" action="">
+    {{ form.csrf_token }}
+    <div class = "col text-center">
+      <img class="blog_pic pt-5" src="{{ url_for('static', filename='images/contact.jpg') }}" alt="contact us">
+    </div>
+    <div class = "col">
+      <div class = "row py-1">
+        <h3>Name </h3>
+        <p class = "row">{{ form.first_name.label }}</p>
+        <p class = "row">{{ form.first_name (placeholder="Enter your first name", class_="registerBox") }}</p> 
+        <p class = "row">{{ form.last_name.label }} </p>
+        <p class = "row">{{ form.last_name (placeholder="Enter your surname", class_="registerBox")}} </p>
+      </div>
+      <div class = "row py-1">
+        <h4>{{ form.id.label }}</h3> {{ form.id (placeholder="Choose a username", class_="registerBox")}}
+      </div>
+      <div class = "row py-2">
+        <h4>{{ form.email.label }}</h4> {{ form.email (placeholder="Enter your email", class_="registerBox")}}
+        {% for error in form.email.errors %} <span style="color: red;">[{{ error }}]</span>{% endfor %}
+      </div>
+      <div class = "row py-1">
+        <h4>{{ form.password.label }}</h4> {{ form.password (placeholder="Type in a password between 6 and 8 characters in length", class_="registerBox")}}
+      </div>
+      <div class = "row py-1">
+        {% for error in form.password.errors %}
+                  <span class = "p-2" style="color: red;">[{{ error }}]</span>
+                  {% endfor %}
+        <h4>* {{ form.confirm_password.label }}</h4> {{ form.confirm_password (placeholder="Re-type your password", class_="registerBox")}}
+                  {% for error in form.confirm_password.errors %}
+                  <span class = "p-2" style="color: red;">[{{ error }}]</span>
+                  {% endfor %}
+                  <br>
+        </div>
+    </div>
+    <div class = "row py-4">
+      <input class = "p-4" type="submit" value="Register">
+    </div>
+  </form>
 
 {% endblock content %}
