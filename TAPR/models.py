@@ -1,6 +1,6 @@
 from datetime import datetime
 from TAPR import db
-# from blog import login_manager
+# from blog import 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
