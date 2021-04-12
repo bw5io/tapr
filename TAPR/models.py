@@ -1,6 +1,6 @@
 from datetime import datetime
 from TAPR import db
-# from blog import 
+from TAPR import login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -20,7 +20,9 @@ class User(UserMixin, db.Model):
     coding_experience = db.Column(db.Boolean)
     previous_degree = db.Column(db.String(20))
     team_mark_percentage = db.relationship("TeamMarkPercentage")
-    issues_submitted = db.relationship("Issue",back_populates="children")
+    issues_submitted = db.relationship("Issue",back_populates="applicant")
+    assessment_id = db.Column(db.Integer, db.ForeignKey('Assessment.id'))
+
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
@@ -51,7 +53,7 @@ class Issue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_id = db.Column(db.Integer, db.ForeignKey('Team.id'), nullable=False)
     applicant_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
-    applicant = db.relationship("User",back_populates="issues")
+    applicant = db.relationship("User",back_populates="issues_submitted")
     students_involved = db.relationship('IssueStudentInvolved')
     issue_type_description = db.Column(db.String(100), nullable=False)
     complaint = db.Column(db.String(1000))
@@ -72,7 +74,7 @@ class Assessment(db.Model):
     student_team_list = db.relationship("Team")
     contribution_form_questions = db.relationship("ContributionQuestion")
     band_weighting = db.relationship("BandWeighting")
-    issue_type = db.relationship("IssueType")
+    # issue_type = db.relationship("IssueType")
 
 class BandWeighting(db.Model):
     __tablename__ = "BandWeighting"
@@ -113,9 +115,9 @@ class TeamMarkPercentage(db.Model):
     student = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
      
 
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(int(user_id))
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 # class TeamMember(db.Model):
 #     id = db.Column(db.Integer, primary_key=True, nullable=False)

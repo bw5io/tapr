@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block sub_header %}
+    <h2>register</h2>
+{% endblock sub_header %}
+
+{% block content %}
+
+<div class="formpage">
+<div class="space"></div>
+<form action="" method="post">
+    {{form.csrf_token}}
+    <p class="form">{{form.id.label(class_="lb")}}{{form.id(class_="inputline")}}</p>
+    <p class="form">{{form.email.label(class_="lb")}}{{form.email(class_="inputline")}}</p>
+    <p class="form">{{form.password.label(class_="lb")}}{{form.password(class_="inputline")}}</p>
+    <p class="form">{{form.confirm_password.label(class_="lb")}}{{form.confirm_password(class_="inputline")}}</p>
+    <p class="form">{{form.first_name.label(class_="lb")}}{{form.first_name(class_="inputline")}}</p>
+    <p class="form">{{form.last_name.label(class_="lb")}}{{form.last_name(class_="inputline")}}</p>
+    <div class="space"></div>
+    <p><a href="{{url_for('login')}}">Registered?</a></p>
+    <div class="space"></div>
+    <p> {{form.submit(class_="btn")}}</p>
+</form> 
+
+{% endblock content %}
