@@ -58,7 +58,9 @@ def register():
 
 @app.route("/issues", methods=['GET','POST'])
 def issues():
-    form=IssueForm()
+    team_list = Team.query.filter_by(id=current_user.team_id).first().team_members
+    print(team_list)
+    form=IssueForm(UserList = team_list)
     if form.validate_on_submit():
         print("This if Works.")
         issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id ,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
