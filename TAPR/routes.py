@@ -123,7 +123,7 @@ def batch_register():
     db.session.commit()
     for i in range(1001,1099,1):
         print(i)
-        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1)
+        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1,is_student=1)
         db.session.add(user)
         db.session.commit()
     flash("Batch registration completed.")
@@ -134,6 +134,7 @@ def reset_user():
     for i in range(1001,1099,1):
         user= User.query.filter_by(id=i).first()
         user.team_id=None
+        user.is_student=1
         user.native_speaker=choice(seq=[True,False])
         user.coding_experience=choice(seq=[True,False])
         user.previous_degree=choice(seq=["BA", "BSc", "LLM", "BEng"])
