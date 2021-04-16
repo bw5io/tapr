@@ -25,7 +25,7 @@ class User(UserMixin, db.Model):
 
 
     def __repr__(self):
-        return f"{self.last_name}, {self.first_name}, {self.id}, {self.email}, {self.native_speaker}, {self.coding_experience}, {self.previous_degree}" #change this in main
+        return f"{self.team_id}, {self.last_name}, {self.first_name}, {self.id}, {self.email}, {self.native_speaker}, {self.coding_experience}, {self.previous_degree}" #change this in main
 
     @property
     def password(self):
