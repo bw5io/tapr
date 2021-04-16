@@ -54,7 +54,10 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-
+@app.route("/issues", methods=['GET','POST'])
+def issues():
+    form=IssueForm()
+    return render_template('report_issues.html', title='Report Issues', form=form)
 
 
 
