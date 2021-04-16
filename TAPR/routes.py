@@ -54,27 +54,6 @@ def register():
     #     flash_errors(form)
     return render_template('register.html', title='Register', form=form)
 
-@app.route("/batch_register")
-def batch_register():
-    for i in range(1001,1099,1):
-        print(i)
-        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1)
-        db.session.add(user)
-        db.session.commit()
-    flash("Batch registration completed.")
-    return redirect(url_for('home'))
-
-@app.route("/reset_user")
-def reset_user():
-    for i in range(1001,1099,1):
-        print(i)
-        user= User.query.filter_by(id=i).first()
-        user.team_id=None
-        db.session.commit()
-    db.session.query(Team).delete()
-    db.session.commit()
-    flash("Reset completed.")
-    return redirect(url_for('home'))
 
 
 @app.route("/issues", methods=['GET','POST'])
@@ -115,3 +94,26 @@ def team_allocation():
         
     return render_template('team_allocation.html', title = "Team Allocation", form=form)
 
+# Customized Scripts
+
+@app.route("/batch_register")
+def batch_register():
+    for i in range(1001,1099,1):
+        print(i)
+        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1)
+        db.session.add(user)
+        db.session.commit()
+    flash("Batch registration completed.")
+    return redirect(url_for('home'))
+
+@app.route("/reset_user")
+def reset_user():
+    for i in range(1001,1099,1):
+        print(i)
+        user= User.query.filter_by(id=i).first()
+        user.team_id=None
+        db.session.commit()
+    db.session.query(Team).delete()
+    db.session.commit()
+    flash("Reset completed.")
+    return redirect(url_for('home'))
