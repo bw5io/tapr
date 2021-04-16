@@ -6,9 +6,31 @@
 
 {% block content %}
 <div class="formpage">
-<div class="space"></div>
-<form action="" method="post">
-  
-</form>
-</div>
+  <div class="space"></div>
+  <form action="" method="post">
+      {{form.csrf_token}}
+    
+    {{ form.issue_type.label }}
+    {% for error in form.issue_type.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.issue_type }} 
+
+    {{ form.attempts_resolve.label }}
+    {% for error in form.attempts_resolve.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.attempts_resolve }} 
+
+    {{ form.issue_description.label }}
+    {% for error in form.issue_description.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.issue_description }} 
+
+
+
+    
+  </form>
+  </div>
 {% endblock content %}
