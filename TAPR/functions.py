@@ -15,14 +15,14 @@ def flash_errors(form):
             flash( (error), 'error')
 
 # end of referenced code.
-def render_csv(header, data):
+def render_csv(header, data, filename="export.csv"):
     dest = io.StringIO()
     writer = csv.writer(dest)
     writer.writerow(header.split(","))
     for row in data:
         writer.writerow(row.__repr__().split(","))
     output = make_response(dest.getvalue())
-    output.headers["Content-Disposition"] = "attachment; filename=export.csv"
+    output.headers["Content-Disposition"] = "attachment; filename="+filename
     output.headers["Content-type"] = "text/csv"
     return output
 

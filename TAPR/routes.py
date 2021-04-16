@@ -102,12 +102,18 @@ def team_lists():
 @app.route("/team_lists/downloads")
 def team_lists_download():
     assessment = User.query.filter_by(assessment_id=1).all()
-    return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",assessment)
+    return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",assessment,"team_list.csv")
 
 @app.route("/team/<int:team_id>")
 def team(team_id):
     team = Team.query.get_or_404(team_id)
     return render_template('team.html', title='Team', team=team)
+
+@app.route("/team/<int:team_id>/download")
+def team_download(team_id):
+    team = Team.query.get_or_404(team_id)
+    return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",team.team_members,"team_list_"+str(team_id)+".csv")
+
 # Customized Scripts
 
 @app.route("/batch_register")
