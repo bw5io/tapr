@@ -27,9 +27,8 @@
                     <a class="navbar-brand" href="{{ url_for('home') }}">Home</a>
                     {% if current_user.is_student == false %}
                     <a class="nav-link" href="{{ url_for('team_allocation') }}">Team Allocation</a>
-                    {% elif current_user.is_student == true %}
                     <a class="nav-link" href="{{ url_for('team_lists') }}">Team Lists</a>
-                    {% else %}
+                    {% elif current_user.is_student == true %}
                     <a class="navbar-brand" href="{{ url_for('issues') }}">Report Issues</a>
                     {% endif %}
                   </ul>

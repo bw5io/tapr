@@ -59,6 +59,13 @@ def register():
 @app.route("/issues", methods=['GET','POST'])
 def issues():
     form=IssueForm()
+    if form.validate_on_submit():
+        print("This if Works.")
+        issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id ,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
+        db.session.add(issue)
+        db.session.commit()
+        flash("Your issue has been recorded and someone will get back to you in 7 working days..")
+        return redirect(url_for('home'))
     return render_template('report_issues.html', title='Report Issues', form=form)
 
 
@@ -110,7 +117,7 @@ def team(team_id):
 def batch_register():
     for i in range(1001,1099,1):
         print(i)
-        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1)
+        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1,is_student=1)
         db.session.add(user)
         db.session.commit()
     flash("Batch registration completed.")

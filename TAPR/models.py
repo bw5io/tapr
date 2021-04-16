@@ -55,8 +55,9 @@ class Issue(db.Model):
     applicant_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
     applicant = db.relationship("User",back_populates="issues_submitted")
     students_involved = db.relationship('IssueStudentInvolved')
-    issue_type_description = db.Column(db.String(100), nullable=False)
-    complaint = db.Column(db.String(1000))
+    issue_type = db.Column(db.String(100), nullable=False)
+    attempts_resolve = db.Column(db.Boolean, nullable=False, default=False)
+    issue_description = db.Column(db.String(1000))
     
 
 class IssueStudentInvolved(db.Model):
