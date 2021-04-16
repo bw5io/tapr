@@ -11,6 +11,9 @@
     
         <!-- Bootstrap Javascript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <!--Google fonts -m-->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Merriweather:wght@300&family=Pacifico&family=Salsa&display=swap" rel="stylesheet">
         <title>Title</title>
     </head>
     <body>
@@ -26,6 +29,7 @@
                     <a class="nav-link" href="">All Posts</a>
                     {% if current_user.is_student == false %}
                     <a class="nav-link" href="{{ url_for('team_allocation') }}">Team Allocation</a>
+                    <a class="nav-link" href="{{ url_for('team_lists') }}">Team Lists</a>
                     {% endif %}
                   </ul>
                 </div>

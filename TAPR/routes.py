@@ -58,7 +58,7 @@ def register():
 
 
 
-@app.route("/")
+
 @app.route("/team_allocation", methods=['GET', 'POST'])
 def team_allocation():
     form = TeamAllocation()
@@ -88,3 +88,14 @@ def team_allocation():
         return redirect(url_for('home'))
         
     return render_template('team_allocation.html', title = "Team Allocation", form=form)
+
+
+@app.route("/team_lists")
+def team_lists():
+    assessment = Assessment.query.filter_by(id=1).first()
+    return render_template('team_lists.html', title='Team List', assessment=assessment)
+
+@app.route("/team/<int:team_id>")
+def team(team_id):
+    team = Team.query.get_or_404(team_id)
+    return render_template('team.html', title='Team', team=team)
