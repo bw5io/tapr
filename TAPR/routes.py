@@ -61,6 +61,7 @@ def issues():
 
 
 
+
 @app.route("/")
 @app.route("/team_allocation", methods=['GET', 'POST'])
 def team_allocation():
