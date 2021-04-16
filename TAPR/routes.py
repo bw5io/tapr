@@ -54,7 +54,21 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-
+@app.route("/issues", methods=['GET','POST'])
+def issues():
+    # form=LoginForm()
+    # if form.validate_on_submit():
+    #     user = User.query.filter_by(id=form.id.data).first()
+    #     if user is not None and user.verify_password(form.password.data): 
+    #         login_user(user)
+    #         flash("Login Success!")
+    #         next=request.args.get('next')
+    #         return redirect(url_for('home'))
+    #     else:
+    #         flash("Email or Password incorrect.")
+    # else:
+    #     flash_errors(form)
+    return render_template('report_issues.html', title='Report Issues', form=form)
 
 
 
