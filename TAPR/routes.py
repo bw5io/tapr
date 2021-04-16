@@ -52,3 +52,26 @@ def register():
     # else:
     #     flash_errors(form)
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/questionnaire', methods=['GET', 'POST'])
+def questions():
+    form = QuestionnaireForm()
+    if form.validate_on_submit():
+        # form data
+        user = User.query.filter_by(id=current_user.id).first()
+        user.native_speaker=form.native_speaker.data
+        user.coding_experience=form.coding_experience.data
+        user.previous_degree=form.degree_program.data
+
+        db.session.commit()
+        # success message
+        flash("Questionnaire submitted successfully!")
+        # on success, then redirect to home screen.
+        return redirect('/home')
+    return render_template("allocation_questionnaire.html", title="Questionnaire", form=form)
+
+
+@app.route('/questionnaire_results', methods=['GET', 'POST'])
+def questionnaire_results():
+    return render_template("questionnaire_results.html", title="Results")

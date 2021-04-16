@@ -16,9 +16,9 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(60), nullable=False)
     password_hash = db.Column(db.String(128))
     is_student = db.Column(db.Boolean, nullable=False, default=False)
-    native_speaker = db.Column(db.Boolean)
+    native_speaker = db.Column(db.Boolean)   
     coding_experience = db.Column(db.Boolean)
-    previous_degree = db.Column(db.String(20))
+    previous_degree = db.Column(db.String(20))  #BA, BSc, LLM, BEng
     team_mark_percentage = db.relationship("TeamMarkPercentage")
     issues_submitted = db.relationship("Issue",back_populates="applicant")
     assessment_id = db.Column(db.Integer, db.ForeignKey('Assessment.id'))

@@ -27,3 +27,11 @@ class LoginForm(FlaskForm):
     id = StringField('ID', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+
+class QuestionnaireForm(FlaskForm):
+    native_speaker=BooleanField("Native Speaker")
+    coding_experience=BooleanField("Coding Experience")
+    degree_program=SelectField("Degree Program: ", choices=[("BA"), ("BSc"), ("LLM"), ("BEng")], coerce=str, validators=[DataRequired()])
+    submit = SubmitField("Form Complete")
+  
