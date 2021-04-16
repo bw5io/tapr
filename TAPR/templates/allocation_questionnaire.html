@@ -1,1 +1,52 @@
 {% extends "layout.html" %}
+
+{% block sub_header %}
+    <h2>Pre-Allocation Questionnaire</h2>
+{% endblock sub_header %}
+
+{% block content %}
+
+
+    <form action="", method="post" novalidate>
+    {{form.csrf_token}}
+       
+
+      <!--Drop down box-->
+      <p>
+        {{ form.native_speaker.label() }}
+        {{ form.native_speaker() }}
+        <!--error message-->
+        {% for error in form.native_speaker.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.coding_experience.label() }}
+        {{ form.coding_experience() }}
+        <!--error message-->
+        {% for error in form.coding_experience.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <p>
+        {{ form.degree_program.label() }}
+        {{ form.degree_program() }}
+        <!--error message-->
+        {% for error in form.degree_program.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+
+      <!--Clear button-->
+      <input type="reset">
+
+      <!--Submit button-->
+      <p>
+        {{ form.submit() }}
+      </p>
+    </form>
+
+
+{% endblock content %}
