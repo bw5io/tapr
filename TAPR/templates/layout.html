@@ -22,8 +22,6 @@
                 <div class = "col-md-6 me-auto" id="navbar_left">
                   <ul class="navbar-nav">
                     <a class="navbar-brand" href="{{ url_for('home') }}">Home</a>
-                    <a class="nav-link active" aria-current="page" href="">About</a>
-                    <a class="nav-link" href="">All Posts</a>
                     {% if current_user.is_student == false %}
                     <a class="nav-link" href="{{ url_for('team_allocation') }}">Team Allocation</a>
                     {% endif %}
