@@ -1,4 +1,5 @@
 from flask import render_template, url_for, request, redirect, flash
+from sqlalchemy.sql.elements import Null
 from TAPR import app, db
 from TAPR.models import *
 from TAPR.forms import *
@@ -54,6 +55,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+
 @app.route("/issues", methods=['GET','POST'])
 def issues():
     form=IssueForm()
@@ -62,7 +64,6 @@ def issues():
 
 
 
-@app.route("/")
 @app.route("/team_allocation", methods=['GET', 'POST'])
 def team_allocation():
     form = TeamAllocation()
@@ -92,3 +93,58 @@ def team_allocation():
         return redirect(url_for('home'))
         
     return render_template('team_allocation.html', title = "Team Allocation", form=form)
+
+
+@app.route("/team_lists")
+def team_lists():
+    assessment = Assessment.query.filter_by(id=1).first()
+    return render_template('team_lists.html', title='Team List', assessment=assessment)
+
+@app.route("/team/<int:team_id>")
+def team(team_id):
+    team = Team.query.get_or_404(team_id)
+    return render_template('team.html', title='Team', team=team)
+# Customized Scripts
+
+@app.route("/batch_register")
+def batch_register():
+    for i in range(1001,1099,1):
+        print(i)
+        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1)
+        db.session.add(user)
+        db.session.commit()
+    flash("Batch registration completed.")
+    return redirect(url_for('home'))
+
+@app.route("/reset_user")
+def reset_user():
+    for i in range(1001,1099,1):
+        print(i)
+        user= User.query.filter_by(id=i).first()
+        user.team_id=None
+        db.session.commit()
+    db.session.query(Team).delete()
+    db.session.commit()
+    flash("Reset completed.")
+    return redirect(url_for('home'))
+@app.route('/questionnaire', methods=['GET', 'POST'])
+def questions():
+    form = QuestionnaireForm()
+    if form.validate_on_submit():
+        # form data
+        user = User.query.filter_by(id=current_user.id).first()
+        user.native_speaker=form.native_speaker.data
+        user.coding_experience=form.coding_experience.data
+        user.previous_degree=form.degree_program.data
+
+        db.session.commit()
+        # success message
+        flash("Questionnaire submitted successfully!")
+        # on success, then redirect to home screen.
+        return redirect('/home')
+    return render_template("allocation_questionnaire.html", title="Questionnaire", form=form)
+
+
+@app.route('/questionnaire_results', methods=['GET', 'POST'])
+def questionnaire_results():
+    return render_template("questionnaire_results.html", title="Results")

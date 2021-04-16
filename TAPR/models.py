@@ -15,10 +15,10 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     password_hash = db.Column(db.String(128))
-    is_student = db.Column(db.Boolean, nullable=False, default=True) #change this in main
-    native_speaker = db.Column(db.Boolean)
+    is_student = db.Column(db.Boolean, nullable=False, default=False)
+    native_speaker = db.Column(db.Boolean)   
     coding_experience = db.Column(db.Boolean)
-    previous_degree = db.Column(db.String(20))
+    previous_degree = db.Column(db.String(20))  #BA, BSc, LLM, BEng
     team_mark_percentage = db.relationship("TeamMarkPercentage")
     issues_submitted = db.relationship("Issue",back_populates="applicant")
     assessment_id = db.Column(db.Integer, db.ForeignKey('Assessment.id')) 
@@ -129,8 +129,3 @@ def load_user(user_id):
 #     id = db.Column(db.Integer, primary_key=True)
 #     issue_description = db.Column(db.String(120))
 #     # Assessment_id = db.Column(db.Integer, db.ForeignKey('Issue.id'), nullable=False)
-
-#add tuples
-#insert into user (first_name, last_name, email, password_hash, is_student)
-#values ('Fake', 'Person', 'cc', 
-#'pbkdf2:sha256:150000$7Mak9aa7$fc52a58cd8beda2315966947d7439744a9aabc41a6023cdca430340b24d6977d', 1)

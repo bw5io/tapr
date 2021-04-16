@@ -14,11 +14,40 @@ body {
 }
 
 
-
-
-/**** Meg CSS **********/
-#teams{
+/*************Meg CSS************/
+.M_links{
+    text-decoration: none;
+    color: white;
     background-color: #206a5d;
-
+    border-style: solid;
+    border-color: #00af91;
+    border-width: 2px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px 20px 10px 20px;
+    box-shadow: 5px 5px 5px grey;
+    font-family: 'Bree Serif', serif;
 }
-/***** End of Meg CSS****/
+.M_links:hover{
+    color: #00af91;
+}
+#M_table{
+    display: grid;
+    justify-items: center;
+}
+#M_table_data{
+    padding: 20px 20px 20px 20px;
+}
+#M_title{
+    display: grid;
+    justify-items: center;
+    color: #206a5d;
+    font-family: 'Bree Serif', serif;
+    font-size: 50px;
+    padding-bottom: 40px;
+    text-shadow: 2px 2px 4px grey;
+}
+span{
+    margin-right: 300px;
+}
+/**********End of Meg CSS********/

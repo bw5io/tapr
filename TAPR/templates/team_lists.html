@@ -1,8 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1>Team lists</h1>
-<div id="teams">
-    
-</div>
+<h1 id=M_title>Team lists</h1>
+
+<table id=M_table>
+
+{% for team in assessment.student_team_list %}
+<tr><td id=M_table_data><a class=M_links href="{{ url_for('team', team_id=team.id) }}"><span>Team {{ team.id }}</span>
+{{team.team_members| length}} Members</a></td></tr>
+{% endfor %}
+</table>
 
 {% endblock content %}
