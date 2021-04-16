@@ -129,8 +129,3 @@ def load_user(user_id):
 #     id = db.Column(db.Integer, primary_key=True)
 #     issue_description = db.Column(db.String(120))
 #     # Assessment_id = db.Column(db.Integer, db.ForeignKey('Issue.id'), nullable=False)
-
-#add tuples
-#insert into user (first_name, last_name, email, password_hash, is_student)
-#values ('Fake', 'Person', 'cc', 
-#'pbkdf2:sha256:150000$7Mak9aa7$fc52a58cd8beda2315966947d7439744a9aabc41a6023cdca430340b24d6977d', 1)
