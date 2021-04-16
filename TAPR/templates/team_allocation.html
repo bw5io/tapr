@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<form method="POST" id="team_allocation"> 
+    <h1>Team Allocation</h1>
+
+    {{ form.csrf_token }} 
+
+
+    {{ form.assessment.label }}
+    {% for error in form.assessment.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.assessment }} 
+
+
+    {{ form.team_size.label }}
+    {% for error in form.team_size.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.team_size }} 
+  
+    <p class="bold">Additional Parameters</p>
+    <p>Please click the box to specify yes or leave blank for no.</p>
+
+    {{ form.prior_programming.label }}
+    {% for error in form.prior_programming.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.prior_programming }} 
+
+
+    {{ form.native_speaker.label }}
+    {% for error in form.native_speaker.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.native_speaker }} 
+
+
+    {{ form.prev_degree.label }}
+    {% for error in form.prev_degree.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.prev_degree }} 
+
+
+    <input type="submit" value="Submit">
+
+
+</form>
+{% endblock content %}

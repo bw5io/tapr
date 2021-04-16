@@ -21,11 +21,11 @@ class User(UserMixin, db.Model):
     previous_degree = db.Column(db.String(20))  #BA, BSc, LLM, BEng
     team_mark_percentage = db.relationship("TeamMarkPercentage")
     issues_submitted = db.relationship("Issue",back_populates="applicant")
-    assessment_id = db.Column(db.Integer, db.ForeignKey('Assessment.id'))
+    assessment_id = db.Column(db.Integer, db.ForeignKey('Assessment.id')) 
 
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
+        return f"User('{self.id}', '{self.email}')" #change this in main
 
     @property
     def password(self):
@@ -69,7 +69,7 @@ class IssueStudentInvolved(db.Model):
 class Assessment(db.Model):
     __tablename__ = "Assessment"
     id = db.Column(db.Integer, primary_key=True)
-    module_info = db.Column(db.String(60), nullable=False)
+    module_info = db.Column(db.String(60), nullable=False) 
     student_list = db.relationship("User")
     student_team_list = db.relationship("Team")
     contribution_form_questions = db.relationship("ContributionQuestion")

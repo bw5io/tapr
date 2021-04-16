@@ -7,7 +7,7 @@
 
         <!-- My stylesheet -->
         <link rel=stylesheet type=text/css href="{{ url_for('static',
-        filename='style.css') }}">
+        filename='main.css') }}">
     
         <!-- Bootstrap Javascript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
@@ -22,8 +22,11 @@
                 <div class = "col-md-6 me-auto" id="navbar_left">
                   <ul class="navbar-nav">
                     <a class="navbar-brand" href="{{ url_for('home') }}">Home</a>
-                    <a class="nav-link active" aria-current="page" href="">About</a>
-                    <a class="nav-link" href="">All Posts</a>
+                    {% if current_user.is_student == false %}
+                    <a class="nav-link" href="{{ url_for('team_allocation') }}">Team Allocation</a>
+                    {% else %}
+                    <a class="navbar-brand" href="{{ url_for('issues') }}">Report Issues</a>
+                    {% endif %}
                   </ul>
                 </div>
           
