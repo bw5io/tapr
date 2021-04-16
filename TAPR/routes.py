@@ -71,7 +71,9 @@ def reset_user():
         user= User.query.filter_by(id=i).first()
         user.team_id=None
         db.session.commit()
-    flash("Batch registration completed.")
+    db.session.query(Team).delete()
+    db.session.commit()
+    flash("Reset completed.")
     return redirect(url_for('home'))
 
 
