@@ -144,7 +144,7 @@
     </div>
 </section>
 
-<p class="MJ_export">Export</p>
+<p class="MJ_export"><a href="{{ url_for('team_download', team_id=team.id)}}">Export</a> </p>
 
 <script src="{{url_for('static', filename='scripts/sort_students.js')}}"></script>
 
