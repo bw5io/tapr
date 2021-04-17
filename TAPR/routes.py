@@ -114,38 +114,6 @@ def team_download(team_id):
     team = Team.query.get_or_404(team_id)
     return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",team.team_members,"team_list_"+str(team_id)+".csv")
 
-# Customized Scripts
-
-@app.route("/batch_register")
-def batch_register():
-    assignment = Assessment(id=1,module_info="Who Cares?")
-    db.session.add(assignment)
-    db.session.commit()
-    for i in range(1001,1099,1):
-        print(i)
-        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1)
-        db.session.add(user)
-        db.session.commit()
-    flash("Batch registration completed.")
-    return redirect(url_for('home'))
-
-@app.route("/reset_user")
-def reset_user():
-    for i in range(1001,1099,1):
-        user= User.query.filter_by(id=i).first()
-        user.team_id=None
-        user.native_speaker=choice(seq=[True,False])
-        user.coding_experience=choice(seq=[True,False])
-        user.previous_degree=choice(seq=["BA", "BSc", "LLM", "BEng"])
-        print(user)
-        db.session.commit()
-    db.session.query(Issue).delete()
-    db.session.commit()
-    db.session.query(Team).delete()
-    db.session.commit()
-    flash("Reset completed.")
-    return redirect(url_for('home'))
-
 @app.route('/questionnaire', methods=['GET', 'POST'])
 def questions():
     form = QuestionnaireForm()
@@ -166,3 +134,49 @@ def questions():
 @app.route('/questionnaire_results', methods=['GET', 'POST'])
 def questionnaire_results():
     return render_template("questionnaire_results.html", title="Results")
+
+
+# Customized Scripts
+
+@app.route("/utility/batch_register")
+def batch_register():
+    assignment = Assessment(id=1,module_info="Who Cares?")
+    db.session.add(assignment)
+    db.session.commit()
+    for i in range(1001,1099,1):
+        print(i)
+        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1,is_student=1)
+        db.session.add(user)
+        db.session.commit()
+    flash("Batch registration completed.")
+    return redirect(url_for('home'))
+
+@app.route("/utility/reset_user")
+def reset_user():
+    for i in range(1001,1099,1):
+        user= User.query.filter_by(id=i).first()
+        user.team_id=None
+        user.is_student=1
+        user.native_speaker=choice(seq=[True,False])
+        user.coding_experience=choice(seq=[True,False])
+        user.previous_degree=choice(seq=["BA", "BSc", "LLM", "BEng"])
+        print(user)
+        db.session.commit()
+    db.session.query(Issue).delete()
+    db.session.commit()
+    db.session.query(Team).delete()
+    db.session.commit()
+    flash("Reset completed.")
+    return redirect(url_for('home'))
+
+@app.route("/utility/batch_marking")
+def batch_marking():
+    for i in range(1001,1099,1):
+        user = User.query.filter_by(id=i).first()
+        team = Team.query.filter_by(id=user.team_id).first()
+        for marked_marker in team.team_members:
+            conform = ContributionForm(team_id = team.id, student_submitter = user.id, student_evaluated = marked_marker.id)
+            db.session.add(conform)
+            db.session.commit()
+            print(conform)
+    return "Done"
