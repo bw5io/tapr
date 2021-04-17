@@ -1,13 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1 id=M_title>Team lists</h1>
+<h1 id=MJ_title>Team lists</h1>
 
-<table id=M_table>
+<table id=MJ_table>
 
 {% for team in assessment.student_team_list %}
-<tr><td id=M_table_data><a class=M_links href="{{ url_for('team', team_id=team.id) }}"><span>Team {{ team.id }}</span>
+<tr><td id=MJ_table_data><a class=MJ_links href="{{ url_for('team', team_id=team.id) }}"><span>Team {{ team.id }}</span>
 {{team.team_members| length}} Members</a></td></tr>
 {% endfor %}
 </table>
+
+<p class="MJ_export">Export</p>
 
 {% endblock content %}
