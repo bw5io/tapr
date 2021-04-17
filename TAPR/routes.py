@@ -7,6 +7,8 @@ from TAPR.forms import *
 from flask_login import login_user, logout_user, login_required, current_user
 from TAPR.functions import *
 from random import choice
+from statistics import mean
+
 
 @app.route("/")
 @app.route("/home")
@@ -93,7 +95,6 @@ def team_allocation():
         
     return render_template('team_allocation.html', title = "Team Allocation", form=form)
 
-
 @app.route("/team_lists")
 def team_lists():
     assessment = Assessment.query.filter_by(id=1).first()
@@ -135,6 +136,29 @@ def questions():
 def questionnaire_results():
     return render_template("questionnaire_results.html", title="Results")
 
+@app.route('/calculate_mark')
+def calculate_mark():
+    return render_template("team_allocation.html", title = "")
+
+@app.route('/calculate_mark_run')
+def calculate_mark_run():
+    teams = Team.query.filter_by(assessment_id=1).all()
+    for team in teams:
+        mark = {}
+        for form in team.contribution_forms:
+            student = form.student_evaluated
+            if student not in mark: mark[student]=0
+            for answer in form.contribution_answers:
+                mark[student]+=answer.answer
+        team_average = mean(mark.values())
+        for i,j in mark.items():
+            newTMP = TeamMarkPercentage(student=i,team_mark_percentage=int(round(100*j/team_average,0)))
+            db.session.add(newTMP)
+            db.session.commit()
+            print(newTMP)
+        print(team.id, mark, mean(mark.values()))
+
+    return "Done"
 
 # Customized Scripts
 
@@ -162,6 +186,12 @@ def reset_user():
         user.previous_degree=choice(seq=["BA", "BSc", "LLM", "BEng"])
         print(user)
         db.session.commit()
+    db.session.query(TeamMarkPercentage).delete()
+    db.session.commit()
+    db.session.query(ContributionFormAnswers).delete()
+    db.session.commit()
+    db.session.query(ContributionForm).delete()
+    db.session.commit()
     db.session.query(Issue).delete()
     db.session.commit()
     db.session.query(Team).delete()
@@ -174,9 +204,15 @@ def batch_marking():
     for i in range(1001,1099,1):
         user = User.query.filter_by(id=i).first()
         team = Team.query.filter_by(id=user.team_id).first()
+        questionnaire = ContributionQuestion.query.filter_by(assessment_id=1)
         for marked_marker in team.team_members:
-            conform = ContributionForm(team_id = team.id, student_submitter = user.id, student_evaluated = marked_marker.id)
-            db.session.add(conform)
+            conForm = ContributionForm(team_id = team.id, student_submitter = user.id, student_evaluated = marked_marker.id)
+            db.session.add(conForm)
             db.session.commit()
-            print(conform)
+            conForm = ContributionForm.query.filter_by(student_submitter = user.id, student_evaluated = marked_marker.id).first()
+            for question in questionnaire:
+                quest = ContributionFormAnswers(form_id = conForm.id, question_id = question.id, answer = choice(seq=[5,4,3,2,1]))
+                db.session.add(quest)
+                db.session.commit()
+            print(conForm)
     return "Done"

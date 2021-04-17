@@ -118,7 +118,10 @@ class TeamMarkPercentage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_mark_percentage = db.Column(db.Integer, nullable=False)
     student = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
-     
+
+    def __repr__(self):
+        return f"{self.id}, {self.team_mark_percentage}, {self.student}"
+
 
 @login_manager.user_loader
 def load_user(user_id):
