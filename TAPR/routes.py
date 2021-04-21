@@ -183,7 +183,7 @@ def reset_user():
         user.is_student=1
         user.native_speaker=choice(seq=[True,False])
         user.coding_experience=choice(seq=[True,False])
-        user.previous_degree=choice(seq=["BA", "BSc", "LLM", "BEng"])
+        user.previous_degree=choice(seq=["BA", "BSc", "LLB", "BEng"])
         print(user)
         db.session.commit()
     db.session.query(TeamMarkPercentage).delete()

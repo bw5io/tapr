@@ -15,7 +15,7 @@ def flash_errors(form):
             flash( (error), 'error')
 
 # end of referenced code.
-def render_csv(header, data, filename="export.csv"):
+def render_csv (header, data, filename="export.csv"):
     dest = io.StringIO()
     writer = csv.writer(dest)
     writer.writerow(header.split(","))
