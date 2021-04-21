@@ -7,6 +7,8 @@ from TAPR.forms import *
 from flask_login import login_user, logout_user, login_required, current_user
 from TAPR.functions import *
 from random import choice
+from statistics import mean
+
 
 @app.route("/")
 @app.route("/home")
@@ -97,7 +99,6 @@ def team_allocation():
         
     return render_template('team_allocation.html', title = "Team Allocation", form=form)
 
-
 @app.route("/team_lists")
 def team_lists():
     assessment = Assessment.query.filter_by(id=1).first()
@@ -120,38 +121,6 @@ def team_download(team_id):
     team = Team.query.get_or_404(team_id)
     return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",team.team_members,"team_list_"+str(team_id)+".csv")
 
-# Customized Scripts
-
-@app.route("/batch_register")
-def batch_register():
-    assignment = Assessment(id=1,module_info="Who Cares?")
-    db.session.add(assignment)
-    db.session.commit()
-    for i in range(1001,1099,1):
-        print(i)
-        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1)
-        db.session.add(user)
-        db.session.commit()
-    flash("Batch registration completed.")
-    return redirect(url_for('home'))
-
-@app.route("/reset_user")
-def reset_user():
-    for i in range(1001,1099,1):
-        user= User.query.filter_by(id=i).first()
-        user.team_id=None
-        user.native_speaker=choice(seq=[True,False])
-        user.coding_experience=choice(seq=[True,False])
-        user.previous_degree=choice(seq=["BA", "BSc", "LLB", "BEng"])
-        print(user)
-        db.session.commit()
-    db.session.query(Issue).delete()
-    db.session.commit()
-    db.session.query(Team).delete()
-    db.session.commit()
-    flash("Reset completed.")
-    return redirect(url_for('home'))
-
 @app.route('/questionnaire', methods=['GET', 'POST'])
 def questions():
     form = QuestionnaireForm()
@@ -172,3 +141,84 @@ def questions():
 @app.route('/questionnaire_results', methods=['GET', 'POST'])
 def questionnaire_results():
     return render_template("questionnaire_results.html", title="Results")
+
+@app.route('/calculate_mark')
+def calculate_mark():
+    return render_template("team_allocation.html", title = "")
+
+@app.route('/calculate_mark_run')
+def calculate_mark_run():
+    teams = Team.query.filter_by(assessment_id=1).all()
+    for team in teams:
+        mark = {}
+        for form in team.contribution_forms:
+            student = form.student_evaluated
+            if student not in mark: mark[student]=0
+            for answer in form.contribution_answers:
+                mark[student]+=answer.answer
+        team_average = mean(mark.values())
+        for i,j in mark.items():
+            newTMP = TeamMarkPercentage(student=i,team_mark_percentage=int(round(100*j/team_average,0)))
+            db.session.add(newTMP)
+            db.session.commit()
+            print(newTMP)
+        print(team.id, mark, mean(mark.values()))
+
+    return "Done"
+
+# Customized Scripts
+
+@app.route("/utility/batch_register")
+def batch_register():
+    assignment = Assessment(id=1,module_info="Who Cares?")
+    db.session.add(assignment)
+    db.session.commit()
+    for i in range(1001,1099,1):
+        print(i)
+        user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1,is_student=1)
+        db.session.add(user)
+        db.session.commit()
+    flash("Batch registration completed.")
+    return redirect(url_for('home'))
+
+@app.route("/utility/reset_user")
+def reset_user():
+    for i in range(1001,1099,1):
+        user= User.query.filter_by(id=i).first()
+        user.team_id=None
+        user.is_student=1
+        user.native_speaker=choice(seq=[True,False])
+        user.coding_experience=choice(seq=[True,False])
+        user.previous_degree=choice(seq=["BA", "BSc", "LLB", "BEng"])
+        print(user)
+        db.session.commit()
+    db.session.query(TeamMarkPercentage).delete()
+    db.session.commit()
+    db.session.query(ContributionFormAnswers).delete()
+    db.session.commit()
+    db.session.query(ContributionForm).delete()
+    db.session.commit()
+    db.session.query(Issue).delete()
+    db.session.commit()
+    db.session.query(Team).delete()
+    db.session.commit()
+    flash("Reset completed.")
+    return redirect(url_for('home'))
+
+@app.route("/utility/batch_marking")
+def batch_marking():
+    for i in range(1001,1099,1):
+        user = User.query.filter_by(id=i).first()
+        team = Team.query.filter_by(id=user.team_id).first()
+        questionnaire = ContributionQuestion.query.filter_by(assessment_id=1)
+        for marked_marker in team.team_members:
+            conForm = ContributionForm(team_id = team.id, student_submitter = user.id, student_evaluated = marked_marker.id)
+            db.session.add(conForm)
+            db.session.commit()
+            conForm = ContributionForm.query.filter_by(student_submitter = user.id, student_evaluated = marked_marker.id).first()
+            for question in questionnaire:
+                quest = ContributionFormAnswers(form_id = conForm.id, question_id = question.id, answer = choice(seq=[5,4,3,2,1]))
+                db.session.add(quest)
+                db.session.commit()
+            print(conForm)
+    return "Done"
