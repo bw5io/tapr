@@ -1,10 +1,12 @@
 from flask import render_template, url_for, request, redirect, flash
+from flask.templating import render_template_string
 from sqlalchemy.sql.elements import Null
 from TAPR import app, db
 from TAPR.models import *
 from TAPR.forms import *
 from flask_login import login_user, logout_user, login_required, current_user
 from TAPR.functions import *
+from random import choice
 
 @app.route("/")
 @app.route("/home")
@@ -58,20 +60,20 @@ def register():
 
 @app.route("/issues", methods=['GET','POST'])
 def issues():
-    team_list = Team.query.filter_by(id=current_user.team_id).first().team_members
-    print(team_list)
-    form=IssueForm(UserList = team_list)
+    form=IssueForm()
+    member = User.query.filter_by(team_id=current_user.team_id).all()
+    member_list = []
+    for i in member:
+        member_list.append((i.id, i.first_name+" "+i.last_name))
+    form.members_involved.choices=member_list
     if form.validate_on_submit():
         print("This if Works.")
         issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id ,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
         db.session.add(issue)
         db.session.commit()
-        flash("Your issue has been recorded and someone will get back to you in 7 working days..")
+        flash("Your issue has been recorded and someone will get back to you in 7 working days.")
         return redirect(url_for('home'))
     return render_template('report_issues.html', title='Report Issues', form=form)
-
-
-
 
 @app.route("/team_allocation", methods=['GET', 'POST'])
 def team_allocation():
@@ -109,14 +111,28 @@ def team_lists():
     assessment = Assessment.query.filter_by(id=1).first()
     return render_template('team_lists.html', title='Team List', assessment=assessment)
 
+@app.route("/team_lists/downloads")
+def team_lists_download():
+    assessment = User.query.filter_by(assessment_id=1).all()
+    return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",assessment,"team_list.csv")
+
 @app.route("/team/<int:team_id>")
 def team(team_id):
     team = Team.query.get_or_404(team_id)
     return render_template('team.html', title='Team', team=team)
+
+@app.route("/team/<int:team_id>/download")
+def team_download(team_id):
+    team = Team.query.get_or_404(team_id)
+    return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",team.team_members,"team_list_"+str(team_id)+".csv")
+
 # Customized Scripts
 
 @app.route("/batch_register")
 def batch_register():
+    assignment = Assessment(id=1,module_info="Who Cares?")
+    db.session.add(assignment)
+    db.session.commit()
     for i in range(1001,1099,1):
         print(i)
         user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1,is_student=1)
@@ -128,14 +144,20 @@ def batch_register():
 @app.route("/reset_user")
 def reset_user():
     for i in range(1001,1099,1):
-        print(i)
         user= User.query.filter_by(id=i).first()
         user.team_id=None
+        user.native_speaker=choice(seq=[True,False])
+        user.coding_experience=choice(seq=[True,False])
+        user.previous_degree=choice(seq=["BA", "BSc", "LLM", "BEng"])
+        print(user)
         db.session.commit()
+    db.session.query(Issue).delete()
+    db.session.commit()
     db.session.query(Team).delete()
     db.session.commit()
     flash("Reset completed.")
     return redirect(url_for('home'))
+
 @app.route('/questionnaire', methods=['GET', 'POST'])
 def questions():
     form = QuestionnaireForm()
@@ -145,7 +167,6 @@ def questions():
         user.native_speaker=form.native_speaker.data
         user.coding_experience=form.coding_experience.data
         user.previous_degree=form.degree_program.data
-
         db.session.commit()
         # success message
         flash("Questionnaire submitted successfully!")
