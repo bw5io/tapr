@@ -21,7 +21,7 @@ def login():
     form=LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(id=form.id.data).first()
-        if user is not None and user.verify_password(form.password.data): 
+        if user is not None and user.verify_password(form.password.data):
             login_user(user)
             flash("Login Success!")
             next=request.args.get('next')
@@ -96,13 +96,13 @@ def team_allocation():
         db.session.commit()
         flash("Teams have been allocated!")
         return redirect(url_for('home'))
-        
+
     return render_template('team_allocation.html', title = "Team Allocation", form=form)
 
 @app.route("/team_lists")
 def team_lists():
     assessment = Assessment.query.filter_by(id=1).first()
-    team_composition = TeamComposition.query.filter_by(id=1).first()
+    team_composition = TeamComposition.query.all()[-1]
     return render_template('team_lists.html', title='Team List', assessment=assessment, team_composition=team_composition)
 
 @app.route("/team_lists/downloads")
