@@ -70,7 +70,7 @@ def team_allocation():
     form = TeamAllocation()
     if form.validate_on_submit():
         #Add team composition to database
-        team_composition = TeamComposition(team_size=form.team_size.data, native_speaker=form.native_speaker.data, coding_experience=form.prior_programming.data, previous_degree=form.prev_degree.data)
+        team_composition = TeamComposition(id = 1, team_size=form.team_size.data, native_speaker=form.native_speaker.data, coding_experience=form.prior_programming.data, previous_degree=form.prev_degree.data)
         db.session.add(team_composition)
 
         if len(Assessment.query.filter_by(id=form.assessment.data).first().student_team_list) > 0:
@@ -102,7 +102,7 @@ def team_allocation():
 @app.route("/team_lists")
 def team_lists():
     assessment = Assessment.query.filter_by(id=1).first()
-    team_composition = TeamComposition.query.all()[-1]
+    team_composition = TeamComposition.query.filter_by(id=1).first()
     return render_template('team_lists.html', title='Team List', assessment=assessment, team_composition=team_composition)
 
 @app.route("/team_lists/downloads")
