@@ -192,6 +192,8 @@ def reset_user():
         user.previous_degree=choice(seq=["BA", "BSc", "LLB", "BEng"])
         print(user)
         db.session.commit()
+    db.session.query(IssueStudentInvolved).delete()
+    db.session.commit()
     db.session.query(TeamMarkPercentage).delete()
     db.session.commit()
     db.session.query(ContributionFormAnswers).delete()
