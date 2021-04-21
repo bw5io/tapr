@@ -202,6 +202,8 @@ def reset_user():
     db.session.commit()
     db.session.query(Team).delete()
     db.session.commit()
+    db.session.query(TeamComposition).delete()
+    db.session.commit()
     flash("Reset completed.")
     return redirect(url_for('home'))
 
