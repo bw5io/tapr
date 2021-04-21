@@ -15,7 +15,36 @@ body {
 
 
 /*************Meg CSS************/
+/*home.html*/
+#MJ_WelcomeTitle{
+    display: grid;
+    justify-items: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 100px;
+}
+#MJ_HomeTitle{
+    display: grid;
+    justify-items: center;
+    font-family: 'Bree Serif', serif;
+}
+#MJ_Credit{
+    display: grid;
+    justify-items: center;
+    font-family: 'Bree Serif', serif;
+    font-size: 15px;
+}
+.Avatars{
+    width: 150px;
+}
+.AvatarPos{
+    text-align: center;
+}
+
 /*team_lists.html*/
+.MJ_composition{
+    display: grid;
+    justify-items: center;
+}
 .MJ_links{
     text-decoration: none;
     color: white;
@@ -74,7 +103,6 @@ span{
     border-width: 2px;
     margin-bottom: 10px;
     font-family: 'Bree Serif', serif;
-    
 }
 .MJ_td{
     padding: 10px 20px 0 20px;

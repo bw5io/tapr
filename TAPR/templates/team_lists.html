@@ -4,21 +4,21 @@
 
 
 {% if team_composition.team_size == 5 %}
-<p>Team size = 5-6</p>
+<small><p class=MJ_composition>Team size is 5-6 members</p></small>
 {% elif team_composition.team_size == 6 %}
-<p>Team size = 6-7</p>
+<small><p class=MJ_composition>Team size is 6-7 members</p></small>
 {% endif %}
 
 {% if team_composition.native_speaker %}
-<p>Teams allocated by: Native Speaker</p>
+<small><p class=MJ_composition>Teams allocated by: Native Speaker</p></small>
 {% endif %}
 
 {% if team_composition.coding_experience %}
-<p>Teams allocated by: Coding Experience</p>
+<small><p class=MJ_composition>Teams allocated by: Coding Experience</p></small>
 {% endif %}
 
 {% if team_composition.previous_degree %}
-<p>Teams allocated by: Previous Degree</p>
+<small><p class=MJ_composition>Teams allocated by: Previous Degree</p></small>
 {% endif %}
 
 <table id=MJ_table>
