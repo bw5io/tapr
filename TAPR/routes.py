@@ -69,13 +69,15 @@ def issues():
 def team_allocation():
     form = TeamAllocation()
     if form.validate_on_submit():
+        if len(Assessment.query.filter_by(id=form.assessment.data).first().student_team_list) > 0:
+            flash("Teams already allocated!")
+            return redirect(url_for('home'))
+            
         #Add team composition to database
         team_composition = TeamComposition(id = 1, team_size=form.team_size.data, native_speaker=form.native_speaker.data, coding_experience=form.prior_programming.data, previous_degree=form.prev_degree.data)
         db.session.add(team_composition)
 
-        if len(Assessment.query.filter_by(id=form.assessment.data).first().student_team_list) > 0:
-            flash("Teams already allocated!")
-            return redirect(url_for('home'))
+
         assessment = Assessment.query.filter_by(id=form.assessment.data).first()
         students = User.query.filter_by(assessment_id=assessment.id).all()
         min_team_size = int(form.team_size.data)
