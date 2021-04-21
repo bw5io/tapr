@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 class="MJ_teamTitle">Team {{ team.id }}</h1>
+
+<form id="MJ_form">
+    <label class="MJ_label">Sort by:</label>
+    <input type="radio" id="SurnameF" name="SortForm" value="Surname" checked>
+    <label class="MJ_label" for="Surname">Surname</label>
+    <input type="radio" id="FirstNameF" name="SortForm" value="FirstName">
+    <label class="MJ_label" for="FirstName">First Name</label>
+    <input type="radio" id="NativeSpeakerF" name="SortForm" value="NativeSpeaker">
+    <label class="MJ_label" for="NativeSpeaker">Native Speaker</label>
+    <input type="radio" id="CodingExperienceF" name="SortForm" value="CodingExperience">
+    <label class="MJ_label" for="CodingExperience">Coding Experience</label>
+    <input type="radio" id="PreviousDegreeF" name="SortForm" value="PreviousDegree">
+    <label class="MJ_label" for="PreviousDegree">Previous Degree</label>
+</form>
+<section id="WholeSection">
+<!--Default Surname section -MJ-->
+    <div id="Surname">
+        <table class="MJ_teamTable"> 
+            <tr class="MJ_thr">
+                <th class="MJ_th">Surname</th>
+                <th class="MJ_th">First Name</th>
+                <th class="MJ_th">Student ID</th>
+                <th class="MJ_th">Email</th>
+                <th class="MJ_th">Native Speaker</th>
+                <th class="MJ_th">Coding Experience</th>
+                <th class="MJ_th">Previous Degree</th>
+            </tr>
+    {% for student in team.team_members | sort(attribute='last_name') %}
+    <tr class="MJ_tr">
+        <td class="MJ_td">{{ student.last_name }}</td>
+        <td class="MJ_td">{{ student.first_name }}</td>
+        <td class="MJ_td">{{ student.id }}</td>
+        <td class="MJ_td">{{ student.email }}</td>
+        <td class="MJ_td">{{ student.native_speaker }}</td>
+        <td class="MJ_td">{{ student.coding_experience }}</td>
+        <td class="MJ_td">{{ student.previous_degree }}</td>
+    </tr>
+    {% endfor %}
+        </table>
+    </div>
+<!--First Name section -MJ-->
+    <div id="FirstName">
+        <table class="MJ_teamTable"> 
+            <tr class="MJ_thr">
+                <th class="MJ_th">Surname</th>
+                <th class="MJ_th">First Name</th>
+                <th class="MJ_th">Student ID</th>
+                <th class="MJ_th">Email</th>
+                <th class="MJ_th">Native Speaker</th>
+                <th class="MJ_th">Coding Experience</th>
+                <th class="MJ_th">Previous Degree</th>
+            </tr>
+    {% for student in team.team_members | sort(attribute='first_name') %}
+    <tr class="MJ_tr">
+        <td class="MJ_td">{{ student.last_name }}</td>
+        <td class="MJ_td">{{ student.first_name }}</td>
+        <td class="MJ_td">{{ student.id }}</td>
+        <td class="MJ_td">{{ student.email }}</td>
+        <td class="MJ_td">{{ student.native_speaker }}</td>
+        <td class="MJ_td">{{ student.coding_experience }}</td>
+        <td class="MJ_td">{{ student.previous_degree }}</td>
+    </tr>
+    {% endfor %}
+        </table>
+    </div>
+<!--Native Speaker section -MJ-->
+    <div id="NativeSpeaker">
+        <table class="MJ_teamTable"> 
+            <tr class="MJ_thr">
+                <th class="MJ_th">Surname</th>
+                <th class="MJ_th">First Name</th>
+                <th class="MJ_th">Student ID</th>
+                <th class="MJ_th">Email</th>
+                <th class="MJ_th">Native Speaker</th>
+                <th class="MJ_th">Coding Experience</th>
+                <th class="MJ_th">Previous Degree</th>
+            </tr>
+    {% for student in team.team_members | sort(attribute='native_speaker', reverse=True) %}
+    <tr class="MJ_tr">
+        <td class="MJ_td">{{ student.last_name }}</td>
+        <td class="MJ_td">{{ student.first_name }}</td>
+        <td class="MJ_td">{{ student.id }}</td>
+        <td class="MJ_td">{{ student.email }}</td>
+        <td class="MJ_td">{{ student.native_speaker }}</td>
+        <td class="MJ_td">{{ student.coding_experience }}</td>
+        <td class="MJ_td">{{ student.previous_degree }}</td>
+    </tr>
+    {% endfor %}
+        </table>
+    </div>
+<!--Coding Experience section -MJ-->
+    <div id="CodingExperience">
+        <table class="MJ_teamTable"> 
+            <tr class="MJ_thr">
+                <th class="MJ_th">Surname</th>
+                <th class="MJ_th">First Name</th>
+                <th class="MJ_th">Student ID</th>
+                <th class="MJ_th">Email</th>
+                <th class="MJ_th">Native Speaker</th>
+                <th class="MJ_th">Coding Experience</th>
+                <th class="MJ_th">Previous Degree</th>
+            </tr>
+    {% for student in team.team_members | sort(attribute='coding_experience', reverse=True) %}
+    <tr class="MJ_tr">
+        <td class="MJ_td">{{ student.last_name }}</td>
+        <td class="MJ_td">{{ student.first_name }}</td>
+        <td class="MJ_td">{{ student.id }}</td>
+        <td class="MJ_td">{{ student.email }}</td>
+        <td class="MJ_td">{{ student.native_speaker }}</td>
+        <td class="MJ_td">{{ student.coding_experience }}</td>
+        <td class="MJ_td">{{ student.previous_degree }}</td>
+    </tr>
+    {% endfor %}
+        </table>
+    </div>
+<!--Previous Degree section -MJ-->
+    <div id="PreviousDegree">
+        <table class="MJ_teamTable"> 
+            <tr class="MJ_thr">
+                <th class="MJ_th">Surname</th>
+                <th class="MJ_th">First Name</th>
+                <th class="MJ_th">Student ID</th>
+                <th class="MJ_th">Email</th>
+                <th class="MJ_th">Native Speaker</th>
+                <th class="MJ_th">Coding Experience</th>
+                <th class="MJ_th">Previous Degree</th>
+            </tr>
+    {% for student in team.team_members | sort(attribute='previous_degree') %}
+    <tr class="MJ_tr">
+        <td class="MJ_td">{{ student.last_name }}</td>
+        <td class="MJ_td">{{ student.first_name }}</td>
+        <td class="MJ_td">{{ student.id }}</td>
+        <td class="MJ_td">{{ student.email }}</td>
+        <td class="MJ_td">{{ student.native_speaker }}</td>
+        <td class="MJ_td">{{ student.coding_experience }}</td>
+        <td class="MJ_td">{{ student.previous_degree }}</td>
+    </tr>
+    {% endfor %}
+        </table>
+    </div>
+</section>
+
+<p class="MJ_export"><a href="{{ url_for('team_download', team_id=team.id)}}">Export</a> </p>
+
+<script src="{{url_for('static', filename='scripts/sort_students.js')}}"></script>
+
+{% endblock content %}
+

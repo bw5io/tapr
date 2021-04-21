@@ -54,4 +54,3 @@ class QuestionnaireForm(FlaskForm):
     coding_experience=BooleanField("Coding Experience")
     degree_program=SelectField("Degree Program: ", choices=[("BA"), ("BSc"), ("LLM"), ("BEng")], coerce=str, validators=[DataRequired()])
     submit = SubmitField("Form Complete")
-  
