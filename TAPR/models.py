@@ -94,11 +94,16 @@ class ContributionForm(db.Model):
     student_evaluated = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
     contribution_answers = db.relationship("ContributionFormAnswers")
     
+    def __repr__(self):
+        return f"{self.id}, {self.team_id}, {self.student_evaluated}, {self.student_submitter}"
+
+
 class ContributionQuestion(db.Model): 
     __tablename__ = "ContributionQuestion"
     id = db.Column(db.Integer, primary_key=True)
     assessment_id = db.Column(db.Integer, db.ForeignKey('Assessment.id'), nullable=False)
-    question = db.Column(db.String(120), nullable=False) 
+    question = db.Column(db.String(120), nullable=False)
+
 
 class ContributionFormAnswers(db.Model):
     __tablename__ = "ContributionFormAnswers"
@@ -113,7 +118,10 @@ class TeamMarkPercentage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_mark_percentage = db.Column(db.Integer, nullable=False)
     student = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
-     
+
+    def __repr__(self):
+        return f"{self.id}, {self.team_mark_percentage}, {self.student}"
+
 
 @login_manager.user_loader
 def load_user(user_id):
