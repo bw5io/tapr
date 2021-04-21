@@ -67,6 +67,10 @@ def issues():
 def team_allocation():
     form = TeamAllocation()
     if form.validate_on_submit():
+        #Add team composition to database
+        team_composition = TeamComposition(team_size=form.team_size.data, native_speaker=form.native_speaker.data, coding_experience=form.prior_programming.data, previous_degree=form.prev_degree.data)
+        db.session.add(team_composition)
+
         if len(Assessment.query.filter_by(id=form.assessment.data).first().student_team_list) > 0:
             flash("Teams already allocated!")
             return redirect(url_for('home'))
@@ -97,11 +101,13 @@ def team_allocation():
 @app.route("/team_lists")
 def team_lists():
     assessment = Assessment.query.filter_by(id=1).first()
-    return render_template('team_lists.html', title='Team List', assessment=assessment)
+    team_composition = TeamComposition.query.filter_by(id=1).first()
+    return render_template('team_lists.html', title='Team List', assessment=assessment, team_composition=team_composition)
 
 @app.route("/team_lists/downloads")
 def team_lists_download():
     assessment = User.query.filter_by(assessment_id=1).all()
+    assessment.sort(key=returnTeamID)
     return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",assessment,"team_list.csv")
 
 @app.route("/team/<int:team_id>")
@@ -136,7 +142,7 @@ def reset_user():
         user.team_id=None
         user.native_speaker=choice(seq=[True,False])
         user.coding_experience=choice(seq=[True,False])
-        user.previous_degree=choice(seq=["BA", "BSc", "LLM", "BEng"])
+        user.previous_degree=choice(seq=["BA", "BSc", "LLB", "BEng"])
         print(user)
         db.session.commit()
     db.session.query(Issue).delete()

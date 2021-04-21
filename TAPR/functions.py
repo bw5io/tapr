@@ -26,6 +26,10 @@ def render_csv(header, data, filename="export.csv"):
     output.headers["Content-type"] = "text/csv"
     return output
 
+def returnTeamID(user):
+    return user.team_id
+
+
 #-------------------------------------------TEAM ALLOCATION------------------------------------------------------------
 def hasCodingExperience(team):
     #Function to check if team already has a member with coding experience

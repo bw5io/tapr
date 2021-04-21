@@ -2,7 +2,29 @@
 {% block content %}
 <h1 id=MJ_title>Team lists</h1>
 
+<p>Teams allocated by: </p>
+{% if team_composition.team_size == 5 %}
+<p>Team size = 5-6</p>
+{% else %}
+<p>Team size = 6-7</p>
+{% endif %}
+
+{% if team_composition.native_speaker %}
+<p>Teams allocated by: Native Speaker</p>
+{% endif %}
+
+{% if team_composition.coding_experience %}
+<p>Teams allocated by: Coding Experience</p>
+{% endif %}
+
+{% if team_composition.previous_degree %}
+<p>Teams allocated by: Previous Degree</p>
+{% endif %}
+
 <table id=MJ_table>
+{% if assessment.student_team_list | length == 0 %}
+<h1>No teams assigned</h1>
+{% else %}
 
 {% for team in assessment.student_team_list %}
 <tr><td id=MJ_table_data><a class=MJ_links href="{{ url_for('team', team_id=team.id) }}"><span>Team {{ team.id }}</span>
@@ -11,5 +33,5 @@
 </table>
 
 <p class="MJ_export"> <a href="{{ url_for('team_lists_download')}}">Export</a> </p>
-
+{% endif %}
 {% endblock content %}
