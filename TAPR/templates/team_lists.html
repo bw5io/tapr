@@ -1,37 +1,63 @@
 {% extends "layout.html" %}
 {% block content %}
-<h1 id=MJ_title>Team lists</h1>
 
-
-{% if team_composition.team_size == 5 %}
-<small><p class=MJ_composition>Team size is 5-6 members</p></small>
-{% elif team_composition.team_size == 6 %}
-<small><p class=MJ_composition>Team size is 6-7 members</p></small>
-{% endif %}
-
-{% if team_composition.native_speaker %}
-<small><p class=MJ_composition>Teams allocated by: Native Speaker</p></small>
-{% endif %}
-
-{% if team_composition.coding_experience %}
-<small><p class=MJ_composition>Teams allocated by: Coding Experience</p></small>
-{% endif %}
-
-{% if team_composition.previous_degree %}
-<small><p class=MJ_composition>Teams allocated by: Previous Degree</p></small>
-{% endif %}
-
-<table id=MJ_table>
+<!--No teams assigned-->
 {% if assessment.student_team_list | length == 0 %}
-<h1>No teams assigned</h1>
+    <div id=MJ_noTeams>
+        <h1 id=MJ_noTeams1>No teams assigned</h1>
+        <p id=MJ_noTeams2>Please assign teams first</p>
+    </div>    
+    
+<!--Teams assigned-->
 {% else %}
+    <h1 id=MJ_title>Team lists</h1>
+<!--Composition section-->
+    <hr class=MJ_HR>
 
-{% for team in assessment.student_team_list %}
-<tr><td id=MJ_table_data><a class=MJ_links href="{{ url_for('team', team_id=team.id) }}"><span>Team {{ team.id }}</span>
-{{team.team_members| length}} Members</a></td></tr>
-{% endfor %}
+    <div id=MJ_composition>
+    <small><p>Teams of 
+    {% if team_composition.team_size == 5 %}
+        5-6 members</p></small>
+    {% elif team_composition.team_size == 6 %}
+        6-7 members
+    </p></small>
+    {% endif %}
+    <small><p>
+        Teams allocated by:
+    {% if team_composition.native_speaker %}
+        ● Native Speaker 
+    {% endif %}
+    
+    {% if team_composition.coding_experience %}
+        ● Coding Experience
+    {% endif %}
+    
+    {% if team_composition.previous_degree %}
+        ● Previous Degree
+    </p></small>
+    {% endif %}
+    </div>
+    
+    <hr class=MJ_HR>
+    
+    <!--table section-->
+    <table id=MJ_table>
+        {% for team in assessment.student_team_list %}
+            <tr>
+                <td id=MJ_table_data>
+                    <a class=MJ_links href="{{ url_for('team', team_id=team.id) }}"><span>Team {{ team.id }}</span>
+                    {{team.team_members| length}} Members</a>
+                </td>
+            </tr>
+        {% endfor %}
+    
 </table>
 
-<p class="MJ_export"> <a href="{{ url_for('team_lists_download')}}">Export</a> </p>
+<!--Export link-->
+<div id=MJ_exportPos1>
+    <a class="MJ_export" href="{{ url_for('team_lists_download')}}"">Export</a>
+</div>
+
 {% endif %}
+
 {% endblock content %}

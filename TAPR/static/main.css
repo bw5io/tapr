@@ -1,31 +1,88 @@
 body {
     color: #206a5d;
 }
-
+/*team_allocation.html*/
+#JI_assessment{
+    padding: 10px 0 15px 0;
+    font-family: 'Bree Serif', serif;
+}
+.JI_box{
+    padding-left: 25px;
+}
+.JI_Button {
+	box-shadow: 3px 4px 0px -2px #ababab;
+	background-color:#ffffff;
+	border-radius:15px;
+	border:1px solid #878787;
+	display:inline-block;
+	cursor:pointer;
+	color:#007965;
+	font-family:Arial;
+	font-size:17px;
+	padding:0px 7px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #a8a8a8;
+}
+.JI_Button:active {
+	position:relative;
+	top:1px;
+}
+.JI_Button:hover {
+	background-color:#81d1c4;
+}
+.JI_HR{
+    border-top: 2px solid white;
+    width: 60%;
+    opacity: .50;
+}
+.JI_information{
+    margin-bottom: 0px;
+    font-family: 'Bree Serif', serif;
+    row-gap: 0em;
+}
+#JI_Margin{
+    margin-bottom: 5px;
+    margin-top: 0;
+    font-family: 'Bree Serif', serif;
+}
+#JI_submit{
+    margin-top: 20px;
+}
+#JI_Title{
+    display: grid;
+    justify-items: center;
+    color: #206a5d;
+    font-family: 'Bree Serif', serif;
+    font-size: 50px;
+    padding-bottom: 40px;
+    text-shadow: 2px 2px 4px grey;
+}
 #team_allocation{
     display: grid;
     grid-template-columns: 1fr;
-    row-gap: 1em;
     justify-items: center;
+    color: white;
+    background-color: #206a5d;
+    border-style: solid;
+    border-color: #00af91;
+    border-width: 2px;
+    border-radius: 10px;
+    padding: 10px 20px 10px 20px;
+    box-shadow: 5px 5px 5px grey;
+    width: 500px;
+    margin: auto;
 }
-
-.bold{
-    font-weight: bold;
+#team_size{
+    list-style: none;
+    padding-left: 80px;
 }
-
-
 /*************Meg CSS************/
 /*home.html*/
-#MJ_WelcomeTitle{
-    display: grid;
-    justify-items: center;
-    font-family: 'Pacifico', cursive;
-    font-size: 100px;
+.Avatars{
+    width: 150px;
 }
-#MJ_HomeTitle{
-    display: grid;
-    justify-items: center;
-    font-family: 'Bree Serif', serif;
+.AvatarPos{
+    text-align: center;
 }
 #MJ_Credit{
     display: grid;
@@ -33,17 +90,33 @@ body {
     font-family: 'Bree Serif', serif;
     font-size: 15px;
 }
-.Avatars{
-    width: 150px;
-}
-.AvatarPos{
-    text-align: center;
-}
-
-/*team_lists.html*/
-.MJ_composition{
+#MJ_HomeTitle{
     display: grid;
     justify-items: center;
+    font-family: 'Bree Serif', serif;
+}
+#MJ_WelcomeTitle{
+    display: grid;
+    justify-items: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 100px;
+}
+/*team_lists.html*/
+#MJ_composition{
+    text-align: center;
+}
+#MJ_exportPos1{
+    display: grid;
+    justify-items: center;
+    margin-left: 35%;
+    margin-top: 20px; 
+}
+.MJ_HR{
+    border-top: 2px solid #206a5d;
+    width: 60%;
+    opacity: .50;
+    margin: auto;
+    margin-bottom: 10px;
 }
 .MJ_links{
     text-decoration: none;
@@ -60,6 +133,17 @@ body {
 }
 .MJ_links:hover{
     color: #00af91;
+}
+#MJ_noTeams{
+    text-align: center;
+}
+#MJ_noTeams1{
+    font-family: 'Pacifico', cursive;
+    font-size: 65px;
+}
+#MJ_noTeams2{
+    font-family: 'Bree Serif', serif;
+    font-size: 20px;
 }
 #MJ_table{
     display: grid;
@@ -80,43 +164,25 @@ body {
 span{
     margin-right: 300px;
 }
-
 /*team.html*/
-#MJ_sort_by{
-    text-align: center;
-    font-family: 'Bree Serif', serif;
-}
-.MJ_th{
-    padding: 10px 20px 10px 20px;
-    text-align: center;
-}
-#MJ_form{
-    text-align: center;
-    padding: 0 20px 0 20px;
-}
-.MJ_thr{
-    text-decoration: none;
-    color: white;
-    background-color: #206a5d;
-    border-style: solid;
-    border-color: #00af91;
-    border-width: 2px;
-    margin-bottom: 10px;
-    font-family: 'Bree Serif', serif;
-}
-.MJ_td{
-    padding: 10px 20px 0 20px;
-    text-align: center;
-}
-.MJ_tr{
-    border-bottom: solid;
-    border-bottom-width: 2px;
+#MJ_exportPos2{
+    display: grid;
+    justify-items: end;
+    margin-right: 70px;
+    margin-top: 20px; 
 }
 .MJ_label{
     font-family: 'Bree Serif', serif;
     padding-right: 10px;
 }
-
+#MJ_sort{
+    text-align: center;
+    padding: 0 20px 0 20px;
+}
+#MJ_sort_by{
+    text-align: center;
+    font-family: 'Bree Serif', serif;
+}
 .MJ_teamTable{
     display: grid;
     justify-items: center;
@@ -135,10 +201,43 @@ span{
     font-family: 'Bree Serif', serif;
     text-align: center;
 }
+.MJ_td{
+    padding: 10px 20px 0 20px;
+    text-align: center;
+}
+.MJ_th{
+    padding: 10px 20px 10px 20px;
+    text-align: center;
+}
+.MJ_thr{
+    text-decoration: none;
+    color: white;
+    background-color: #206a5d;
+    border-style: solid;
+    border-color: #00af91;
+    border-width: 2px;
+    margin-bottom: 10px;
+    font-family: 'Bree Serif', serif;
+}
+.MJ_tr{
+    border-bottom: solid;
+    border-bottom-width: 2px;
+}
 /*shared*/
 .MJ_export{
-    display: grid;
-    justify-items: end;
-    padding: 20px 70px 0 0;
+    text-decoration: none;
+    color: white;
+    background-color: #206a5d;
+    border-style: solid;
+    border-color: #00af91;
+    font-family: 'Bree Serif', serif;
+    width: 70px;
+    padding: 3px 11px 5px 10px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px grey;
 }
+.MJ_export:hover{
+    color: #00af91;
+}
+
 /**********End of Meg CSS********/
