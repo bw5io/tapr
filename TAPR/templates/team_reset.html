@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 id=JI_Title>Team Reset</h1>
+
+<form method="POST" id="team_allocation"> 
+
+    {{ form.csrf_token }} 
+
+    <div id=JI_assessment>
+        {{ form.assessment.label }}
+        {{ form.assessment }} 
+        {% for error in form.assessment.errors %} 
+        <br>
+        <p class="JI_error">[Please enter a number.]</p>
+        {% endfor %} 
+    </div>
+
+    <hr class=JI_HR>
+    <centre><p class=JI_information>PLEASE NOTE!</p></centre>
+    <small><p class=JI_information>By clicking submit all contribution forms, team mark percentages, and issues relating to the assessment will also be deleted.</p></small>
+    <hr class=JI_HR>    
+
+
+    <input id=JI_submit class="JI_Button" type="submit" value="Submit">
+
+
+</form>
+
+
+{% endblock content %}
