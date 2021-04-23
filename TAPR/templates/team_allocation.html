@@ -1,52 +1,78 @@
+
+<!--JAKE YOU WANTED TO ADD FORM VALIDATORS DONT FORGET :)-->
+
 {% extends "layout.html" %}
 {% block content %}
 
+<h1 id=JI_Title>Team Allocation</h1>
 
 <form method="POST" id="team_allocation"> 
-    <h1>Team Allocation</h1>
-
     {{ form.csrf_token }} 
-
-
+<div id=JI_assessment>
     {{ form.assessment.label }}
     {% for error in form.assessment.errors %} 
     <span>[{{ error }}]</span> 
-    {% endfor %}  
+    {% endfor %} 
     {{ form.assessment }} 
+</div>
 
-
-    {{ form.team_size.label }}
+<div> 
+    <p class=JI_information>Specify team size by chosing one of the following:</p>
     {% for error in form.team_size.errors %} 
-    <span>[{{ error }}]</span> 
-    {% endfor %}  
+        <span>[{{ error }}]</span> 
+    {% endfor %} 
+
     {{ form.team_size }} 
-  
-    <p class="bold">Additional Parameters</p>
-    <p>Please click the box to specify yes or leave blank for no.</p>
+</div>
 
-    {{ form.prior_programming.label }}
-    {% for error in form.prior_programming.errors %} 
-    <span>[{{ error }}]</span> 
-    {% endfor %}  
-    {{ form.prior_programming }} 
+<hr class=JI_HR>
+    <centre><p class=JI_information>Additional Parameters</p></centre>
+    <small><p class=JI_information>Please click the box to specify yes, otherwise leave blank</p></small>
+<hr class=JI_HR>
 
-
-    {{ form.native_speaker.label }}
-    {% for error in form.native_speaker.errors %} 
-    <span>[{{ error }}]</span> 
-    {% endfor %}  
-    {{ form.native_speaker }} 
-
-
-    {{ form.prev_degree.label }}
-    {% for error in form.prev_degree.errors %} 
-    <span>[{{ error }}]</span> 
-    {% endfor %}  
-    {{ form.prev_degree }} 
-
-
-    <input type="submit" value="Submit">
-
-
+<div>
+    <p id=JI_Margin>Where possible include at least one:</p>
+    <table>
+        <tr>
+            <td>{{ form.prior_programming.label }}
+                {% for error in form.prior_programming.errors %} 
+                    <span>[{{ error }}]</span> 
+                {% endfor %} 
+            </td>
+            <td class=JI_box>    
+                {{ form.prior_programming }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.native_speaker.label }}
+                {% for error in form.native_speaker.errors %} 
+                    <span>[{{ error }}]</span> 
+                {% endfor %}   
+            </td>
+            <td class=JI_box>
+                {{ form.native_speaker }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.prev_degree.label }}
+                {% for error in form.prev_degree.errors %} 
+                    <span>[{{ error }}]</span> 
+                {% endfor %} 
+            </td>
+            <td class=JI_box>
+                {{ form.prev_degree }} 
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <input id=JI_submit class="JI_Button" type="submit" value="Submit">
+            </td>
+        </tr> 
+    </table>
+</div>
 </form>
 {% endblock content %}
