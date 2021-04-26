@@ -184,6 +184,30 @@ def calculate_mark_run():
 
     return "Done"
 
+#Contribution
+
+app.route("/contribution", methods=['GET','POST'])
+def contribution():
+    form=EvaluationForm()
+    if form.validate_on_submit():
+        conForm = ContributionForm(team_id = team.id, student_submitter = user.id, student_evaluated = team.team_members.id)
+        db.session.add(conForm)
+        db.session.commit()
+        for answer in contrubution_answers:
+            quest = ContributionFormAnswers(form_id = conForm.id, question_id = question.id, answer = choice( )
+            db.session.add(quest)
+            db.session.commit()
+
+        flash("Your evaluation has been submitted.")
+        return redirect(url_for('home'))
+    return render_template('peer_self_forms.html', title='Contribution', form=form)
+
+  
+        
+
+
+
+
 # Customized Scripts
 
 @app.route("/utility/batch_register")

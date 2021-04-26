@@ -57,8 +57,10 @@ class QuestionnaireForm(FlaskForm):
     degree_program=SelectField("Degree Program: ", choices=[("BA"), ("BSc"), ("LLM"), ("BEng")], coerce=str, validators=[DataRequired()])
     submit = SubmitField("Form Complete")
 
+
 class EvaluationForm(FlaskForm):
+    student_evaluated = SelectField('Choose member',choices=team_members)
     question_one = RadioField('First Question:', choices=[(5, 'Excellent'), (4, 'Good'), (3, 'Average'), (2, 'Below Average'), (1,'No Contribution')])
-    question_two = RadioField('First Question:', choices=[(5, 'Excellent'), (4, 'Good'), (3, 'Average'), (2, 'Below Average'), (1,'No Contribution')])
-    question_three = RadioField('First Question:', choices=[(5, 'Excellent'), (4, 'Good'), (3, 'Average'), (2, 'Below Average'), (1,'No Contribution')])
+    question_two = RadioField('Second Question:', choices=[(5, 'Excellent'), (4, 'Good'), (3, 'Average'), (2, 'Below Average'), (1,'No Contribution')])
+    question_three = RadioField('Third Question:', choices=[(5, 'Excellent'), (4, 'Good'), (3, 'Average'), (2, 'Below Average'), (1,'No Contribution')])
     submit = SubmitField("Form Complete")
