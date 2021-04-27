@@ -185,28 +185,28 @@ def calculate_mark_run():
     return "Done"
 
 #Contribution
-
-app.route("/contribution", methods=['GET','POST'])
+@app.route("/contribution", methods=['GET','POST'])
 def contribution():
     form=EvaluationForm()
+    #List all group members
+    member = User.query.filter_by(team_id=current_user.team_id).all()
+    group_menber = []
+    for i in member:
+        group_menber.append((i.first_name + " " + i.last_name))
+    form.student_evaluated.choices=group_menber
     if form.validate_on_submit():
-        conForm = ContributionForm(team_id = team.id, student_submitter = user.id, student_evaluated = team.team_members.id)
-        db.session.add(conForm)
-        db.session.commit()
-        for answer in contrubution_answers:
-            quest = ContributionFormAnswers(form_id = conForm.id, question_id = question.id, answer = choice( )
-            db.session.add(quest)
-            db.session.commit()
+        #conForm = ContributionForm(team_id = team.id, student_submitter = user.id, student_evaluated = team.team_members.id)
+        #db.session.add(conForm)
+        #db.session.commit()
+        #questions = ContributionQuestion.query.filter_by(assessment_id=1)
+        #for answer in questions:
+            #answer = ContributionFormAnswers(form_id = conForm.id, question_id = question.id, answer = form.question.data )
 
-        flash("Your evaluation has been submitted.")
-        return redirect(url_for('home'))
+        flash("Your evaluation submitted successfully.")
+        return redirect(url_for('contribution'))
     return render_template('peer_self_forms.html', title='Contribution', form=form)
-
-  
-        
-
-
-
+    
+ 
 
 # Customized Scripts
 

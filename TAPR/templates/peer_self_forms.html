@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block sub_header %}
+    <h2>Peer/Self Contribution</h2>
+{% endblock sub_header %}
+
+{% block content %}
+<div >
+
+  <form action="" method="post">
+      {{form.csrf_token}}
+    
+
+    {{ form.student_evaluated.label }}
+    {% for error in form.student_evaluated.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.student_evaluated }} 
+
+    {{ form.question.label }}
+    {% for error in form.question.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.question }} 
+
+    <p>{{form.submit(class_="btn")}}</p>
+
+    
+  </form>
+  </div>
+{% endblock content %}
