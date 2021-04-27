@@ -31,6 +31,7 @@
                     {% elif current_user.is_student == true %}
                     <a class="navbar-brand" href="{{ url_for('issues') }}">Report Issues</a>
                     <a class="navbar-brand" href="{{ url_for('questions') }}">Team Allocation Questionnaire</a>
+                    <a class="navbar-brand" href="{{ url_for('contribution') }}">Peer/Self-Assessment Contribution</a>
                     {% endif %}
                   </ul>
                 </div>

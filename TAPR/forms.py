@@ -61,4 +61,5 @@ class QuestionnaireForm(FlaskForm):
 class EvaluationForm(FlaskForm):
     student_evaluated = SelectField('Choose member',choices=[])
     question = RadioField('First Question:', choices=[(5, 'Excellent'), (4, 'Good'), (3, 'Average'), (2, 'Below Average'), (1,'No Contribution')])
+    #question_two = RadioField('Second Question:', choices=[(5, 'Excellent'), (4, 'Good'), (3, 'Average'), (2, 'Below Average'), (1,'No Contribution')])
     submit = SubmitField("Submit Evaluation")

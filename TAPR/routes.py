@@ -192,16 +192,20 @@ def contribution():
     member = User.query.filter_by(team_id=current_user.team_id).all()
     group_menber = []
     for i in member:
-        group_menber.append((i.first_name + " " + i.last_name))
+        group_menber.append((i.id, i.first_name+" "+i.last_name ))
     form.student_evaluated.choices=group_menber
     if form.validate_on_submit():
-        #conForm = ContributionForm(team_id = team.id, student_submitter = user.id, student_evaluated = team.team_members.id)
-        #db.session.add(conForm)
+        #if question >=2 , how to split question_id???
+        conQues = ContributionQuestion.query.filter_by(assessment_id=1)
+        #db.session.add(conQues)
         #db.session.commit()
-        #questions = ContributionQuestion.query.filter_by(assessment_id=1)
-        #for answer in questions:
-            #answer = ContributionFormAnswers(form_id = conForm.id, question_id = question.id, answer = form.question.data )
-
+        conForm = ContributionForm(team_id = current_user.team_id, student_submitter = current_user.id, student_evaluated =form.student_evaluated.data)
+        db.session.add(conForm)
+        db.session.commit()
+        for question in conQues:
+            conAnswer = ContributionFormAnswers(form_id = conForm.id, question_id = question.id, answer = form.question.data )
+            db.session.add(conAnswer)
+            db.session.commit()
         flash("Your evaluation submitted successfully.")
         return redirect(url_for('contribution'))
     return render_template('peer_self_forms.html', title='Contribution', form=form)
