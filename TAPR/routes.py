@@ -143,6 +143,7 @@ def calculate_mark():
 @app.route('/calculate_mark_run')
 def calculate_mark_run():
     teams = Team.query.filter_by(assessment_id=1).all()
+    marking_tier = BandWeighting.query.filter_by(assessment=1).order_by(BandWeighting.contribution_avg.desc()).all()
     for team in teams:
         mark = {}
         for form in team.contribution_forms:
@@ -152,12 +153,16 @@ def calculate_mark_run():
                 mark[student]+=answer.answer
         team_average = mean(mark.values())
         for i,j in mark.items():
-            newTMP = TeamMarkPercentage(student=i,team_mark_percentage=int(round(100*j/team_average,0)))
+            team_mark_index=int(round(100*j/team_average,0))
+            for criteria in marking_tier:
+                if team_mark_index>criteria.contribution_avg:
+                    student_mark_percentage = criteria.teamMark_percentage
+                    break
+            newTMP = TeamMarkPercentage(student=i,team_mark_percentage=student_mark_percentage)
             db.session.add(newTMP)
             db.session.commit()
             print(newTMP)
         print(team.id, mark, mean(mark.values()))
-
     return "Done"
 
 # Customized Scripts

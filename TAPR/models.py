@@ -82,6 +82,8 @@ class BandWeighting(db.Model):
     assessment = db.Column(db.Integer, db.ForeignKey('Assessment.id'), nullable = False)
     contribution_avg = db.Column(db.Integer, nullable=False)
     teamMark_percentage = db.Column(db.Integer, nullable=False)
+    def __repr__(self):
+        return f"{self.id}, {self.contribution_avg}, {self.teamMark_percentage}"
 
 
     
