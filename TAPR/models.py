@@ -65,6 +65,7 @@ class IssueStudentInvolved(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     issue_id = db.Column(db.Integer, db.ForeignKey('Issue.id'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    students_involved = db.relationship('User')
 
 # Table to store Assessment
 class Assessment(db.Model):
