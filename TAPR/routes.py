@@ -81,10 +81,11 @@ def issues():
         return redirect(url_for('home'))
     return render_template('report_issues.html', title='Report Issues', form=form)
 
-# @app.route("/view-issues", methods=['GET','POST'])
-# def view_issues():
-#     issues=Issue.query.order_by(Issue.team_id.desc()).all()
-#     return render_template('view_issues.html', title='View Reported Issues')
+@app.route("/view-issues", methods=['GET','POST'])
+def view_issues():
+    # issues=Issue.query.order_by(Issue.team_id.desc()).all()
+    # return render_template('view_issues.html', title='View Reported Issues')
+    return None
 
 @app.route("/team_reset", methods=['GET', 'POST'])
 def team_reset():
