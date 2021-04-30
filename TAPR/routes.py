@@ -156,7 +156,7 @@ def team_download(team_id):
     return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",team.team_members,"team_list_"+str(team_id)+".csv")
 
 @app.route('/questionnaire', methods=['GET', 'POST'])
-def questions():
+def questionnaire():
     form = QuestionnaireForm()
     if form.validate_on_submit():
         # form data
@@ -172,9 +172,6 @@ def questions():
     return render_template("allocation_questionnaire.html", title="Questionnaire", form=form)
 
 
-@app.route('/questionnaire_results', methods=['GET', 'POST'])
-def questionnaire_results():
-    return render_template("questionnaire_results.html", title="Results")
 
 @app.route('/calculate_mark')
 def calculate_mark():
