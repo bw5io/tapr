@@ -58,8 +58,14 @@ class QuestionnaireForm(FlaskForm):
     submit = SubmitField("Form Complete")
 
 
+<<<<<<< HEAD
 class EvaluationForm(FlaskForm):
     student_evaluated = SelectField('Choose a group member you want to evaluate : ', choices=[])
     question = RadioField('Performance in teamwork : ', choices=[(5, 'Excellent'), (4, 'Good'), (3, 'Average'), (2, 'Below Average'), (1,'No Contribution')])
     #question_two = RadioField('Second Question:', choices=[(5, 'Excellent'), (4, 'Good'), (3, 'Average'), (2, 'Below Average'), (1,'No Contribution')])
     submit = SubmitField("Submit Evaluation")
+=======
+class TeamReset(FlaskForm):
+    assessment = IntegerField('Assessment ID')
+    submit = SubmitField('Submit')
+>>>>>>> e6b9e1f1108e128d7722eba21689bf14a6a0bf4e

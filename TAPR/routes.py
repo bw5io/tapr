@@ -153,7 +153,7 @@ def questions():
         flash("Questionnaire submitted successfully!")
         # on success, then redirect to home screen.
         return redirect('/home')
-    return render_template("allocation_questionnaire.html", title="Questionnaire", form=form)
+    #return render_template("allocation_questionnaire.html", title="Questionnaire", form=form)
 
 
 @app.route('/questionnaire_results', methods=['GET', 'POST'])
