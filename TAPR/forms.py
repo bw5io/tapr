@@ -53,6 +53,17 @@ class QuestionnaireForm(FlaskForm):
     submit = SubmitField("Form Complete")
 
 
+# Forms for Student Mark Percentage Calculation
+# class CriteriaForm(FlaskForm):
+#     contribution_avg = IntegerField('Contribution Index')
+#     teammark_percentage = IntegerField('Result')
+
+# class BandWeightingForm(FlaskForm):
+#     criteria = FieldList(CriteriaForm())
+#     submit = SubmitField("Submit")
+
+
 class TeamReset(FlaskForm):
     assessment = IntegerField('Assessment ID')
     submit = SubmitField('Submit')
+

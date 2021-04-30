@@ -159,11 +159,18 @@ def questionnaire_results():
 
 @app.route('/calculate_mark')
 def calculate_mark():
-    return render_template("team_allocation.html", title = "")
+    assessment = Assessment.query.all()
+    return render_template("calculate_mark.html", title = "", assessment = assessment)
 
-@app.route('/calculate_mark_run')
-def calculate_mark_run():
-    teams = Team.query.filter_by(assessment_id=1).all()
+@app.route('/calculate_mark/criteria/<int:assessment_id>')
+def calculate_mark_criteria(assessment_id):
+    assessment = Assessment.query.all()
+    return render_template("calculate_mark.html", title = "", assessment = assessment)
+
+@app.route('/calculate_mark/run/<int:assessment_id>')
+def calculate_mark_run(assessment_id):
+    teams = Team.query.filter_by(assessment_id=assessment_id).all()
+    marking_tier = BandWeighting.query.filter_by(assessment=assessment_id).order_by(BandWeighting.contribution_avg.desc()).all()
     for team in teams:
         mark = {}
         for form in team.contribution_forms:
@@ -173,13 +180,27 @@ def calculate_mark_run():
                 mark[student]+=answer.answer
         team_average = mean(mark.values())
         for i,j in mark.items():
-            newTMP = TeamMarkPercentage(student=i,team_mark_percentage=int(round(100*j/team_average,0)))
+            team_mark_index=int(round(100*j/team_average,0))
+            for criteria in marking_tier:
+                if team_mark_index>criteria.contribution_avg:
+                    student_mark_percentage = criteria.teamMark_percentage
+                    break
+            newTMP = TeamMarkPercentage(student=i,team_mark_percentage=student_mark_percentage)
             db.session.add(newTMP)
             db.session.commit()
             print(newTMP)
         print(team.id, mark, mean(mark.values()))
+    return redirect(url_for('calculate_mark_result', assessment_id = assessment_id))
 
-    return "Done"
+@app.route('/calculate_mark/result/<int:assessment_id>')
+def calculate_mark_result(assessment_id):
+    result = TeamMarkPercentage
+    return "To be constructed"
+
+
+@app.route('/calculate_mark/csv/<int:assessment_id>')
+def calculate_mark_result_csv(assessment_id):
+    return None
 
 # Customized Scripts
 
