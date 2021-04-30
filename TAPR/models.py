@@ -55,8 +55,9 @@ class Issue(db.Model):
     applicant_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
     applicant = db.relationship("User",back_populates="issues_submitted")
     students_involved = db.relationship('IssueStudentInvolved')
-    issue_type_description = db.Column(db.String(100), nullable=False)
-    complaint = db.Column(db.String(1000))
+    issue_type = db.Column(db.String(100), nullable=False)
+    attempts_resolve = db.Column(db.Boolean, nullable=False, default=False)
+    issue_description = db.Column(db.String(1000))
     
 
 class IssueStudentInvolved(db.Model):
@@ -82,7 +83,8 @@ class BandWeighting(db.Model):
     assessment = db.Column(db.Integer, db.ForeignKey('Assessment.id'), nullable = False)
     contribution_avg = db.Column(db.Integer, nullable=False)
     teamMark_percentage = db.Column(db.Integer, nullable=False)
-
+    def __repr__(self):
+        return f"{self.id}, {self.contribution_avg}, {self.teamMark_percentage}"
 
     
 # Tables for Peer Contribution Form
@@ -118,6 +120,7 @@ class TeamMarkPercentage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_mark_percentage = db.Column(db.Integer, nullable=False)
     student = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
+    assessment_id = db.Column(db.Integer, db.ForeignKey("Assessment.id"), nullable=False)
 
     def __repr__(self):
         return f"{self.id}, {self.team_mark_percentage}, {self.student}"
