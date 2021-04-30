@@ -59,7 +59,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-
+# Issues 
 @app.route("/issues", methods=['GET','POST'])
 def issues():
     form=IssueForm()
@@ -69,7 +69,6 @@ def issues():
         member_list.append((i.id, i.first_name+" "+i.last_name))
     form.members_involved.choices=member_list
     if form.validate_on_submit():
-        print("This if Works.")
         issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id ,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
         db.session.add(issue)
         db.session.commit()
