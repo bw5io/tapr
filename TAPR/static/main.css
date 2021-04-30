@@ -14,17 +14,6 @@ main: font-family: 'Bree Serif', serif;
 secondary: font-family: 'Pacifico', cursive;
 */
 /*layout.html*/
-#MJ_navbar{
-    font-family: 'Bree Serif', serif;
-    color:#007965;
-    text-decoration: none;
-}
-#MJ_navbar:hover{
-    color: #00af91;
-}
-.MJ_Override{
-    margin-right: 30px;
-}
 .footerPictures{
     width: 40px;
 }
@@ -45,8 +34,16 @@ secondary: font-family: 'Pacifico', cursive;
     height: 2px;
     margin: auto;
 }
-#footerMembers{
-    font-weight: bold;
+#MJ_navbar{
+    font-family: 'Bree Serif', serif;
+    color:#007965;
+    text-decoration: none;
+}
+#MJ_navbar:hover{
+    color: #00af91;
+}
+.MJ_Override{
+    margin-right: 30px;
 }
 /*home.html*/
 .Avatars{
