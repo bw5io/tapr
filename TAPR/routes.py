@@ -69,8 +69,12 @@ def issues():
         member_list.append((i.id, i.first_name+" "+i.last_name))
     form.members_involved.choices=member_list
     if form.validate_on_submit():
+<<<<<<< HEAD
         print("This if Works.")
         issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id ,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
+=======
+        issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
+>>>>>>> 4e2d7b29f77e2c82db0ffd6306c9d7b1e8f2624e
         db.session.add(issue)
         db.session.commit()
         reported_user = IssueStudentInvolved(issue_id = issue.id, student_id = form.members_involved.data)
@@ -81,6 +85,26 @@ def issues():
         return redirect(url_for('home'))
     return render_template('report_issues.html', title='Report Issues', form=form)
 
+<<<<<<< HEAD
+=======
+@app.route("/view-issues", methods=['GET','POST'])
+def view_issues():
+    issues=Issue.query.order_by(Issue.team_id.desc()).all()
+    return render_template('view_issues.html', title='View Reported Issues', issues=issues)
+    
+
+@app.route("/team_reset", methods=['GET', 'POST'])
+def team_reset():
+    form = TeamReset()
+    if form.validate_on_submit():
+        if Assessment.query.filter_by(id=form.assessment.data).first() == None:
+            flash("Assessment ID not recognized. Please make sure the assessment has been created.")
+            return redirect(url_for('team_reset'))
+        if form.assessment.data == 1:
+            return redirect(url_for('reset_user'))
+    return render_template('team_reset.html', title = "Team Reset", form=form)
+
+>>>>>>> 4e2d7b29f77e2c82db0ffd6306c9d7b1e8f2624e
 @app.route("/team_allocation", methods=['GET', 'POST'])
 def team_allocation():
     form = TeamAllocation()
