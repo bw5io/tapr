@@ -69,7 +69,7 @@ def issues():
         member_list.append((i.id, i.first_name+" "+i.last_name))
     form.members_involved.choices=member_list
     if form.validate_on_submit():
-        issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id ,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
+        issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
         db.session.add(issue)
         db.session.commit()
         reported_user = IssueStudentInvolved(issue_id = issue.id, student_id = form.members_involved.data)
@@ -82,9 +82,9 @@ def issues():
 
 @app.route("/view-issues", methods=['GET','POST'])
 def view_issues():
-    # issues=Issue.query.order_by(Issue.team_id.desc()).all()
-    # return render_template('view_issues.html', title='View Reported Issues')
-    return None
+    issues=Issue.query.order_by(Issue.team_id.desc()).all()
+    return render_template('view_issues.html', title='View Reported Issues', issues=issues)
+    
 
 @app.route("/team_reset", methods=['GET', 'POST'])
 def team_reset():
@@ -158,7 +158,7 @@ def team_download(team_id):
     return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",team.team_members,"team_list_"+str(team_id)+".csv")
 
 @app.route('/questionnaire', methods=['GET', 'POST'])
-def questions():
+def questionnaire():
     form = QuestionnaireForm()
     if form.validate_on_submit():
         # form data
@@ -174,9 +174,6 @@ def questions():
     return render_template("allocation_questionnaire.html", title="Questionnaire", form=form)
 
 
-@app.route('/questionnaire_results', methods=['GET', 'POST'])
-def questionnaire_results():
-    return render_template("questionnaire_results.html", title="Results")
 
 @app.route('/calculate_mark')
 def calculate_mark():
