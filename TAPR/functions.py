@@ -26,6 +26,10 @@ def render_csv(header, data, filename="export.csv"):
     output.headers["Content-type"] = "text/csv"
     return output
 
+def returnTeamID(user):
+    return user.team_id
+
+
 #-------------------------------------------TEAM ALLOCATION------------------------------------------------------------
 def hasCodingExperience(team):
     #Function to check if team already has a member with coding experience
@@ -47,7 +51,7 @@ def notAllocated(student):
         return True
     else:
         return False
-    
+
 def getTeamSize(students, team_id):
     #Function to get the current size of the team
     count = 0
@@ -67,7 +71,7 @@ def addNativeSpeakers(teams, students):
 def addPriorProgrammers(teams, students):
     #Function to allocate one prior programmer to each team in teams
     for team in teams:
-        if hasCodingExperience(team): 
+        if hasCodingExperience(team):
             continue
         else:
             for student in students:
@@ -80,7 +84,7 @@ def addPreviousDegrees(teams, students, min_team_size):
     degrees = ["BA", "BSc", "BEng", "LLB"]
     for degree in degrees:
         for team in teams:
-            if getTeamSize(students, team.id) == min_team_size: 
+            if getTeamSize(students, team.id) == min_team_size:
                 continue
             if hasPriorDegree(team, degree):
                 continue
@@ -90,7 +94,9 @@ def addPreviousDegrees(teams, students, min_team_size):
                     break
 
 def allocateStudents(teams, students, min_team_size):
-    #Function to fill teams to min capacity and then add any remaining students 
+    #Function to fill teams to min capacity and then add any remaining students
+    import random
+    random.shuffle(students)
     for team in teams:
         for student in students:
             if getTeamSize(students, team.id) == min_team_size:
