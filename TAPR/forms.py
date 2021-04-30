@@ -36,7 +36,7 @@ class TeamAllocation(FlaskForm):
     submit = SubmitField('Submit')
 
 class IssueForm(FlaskForm):
-    issue_type = RadioField('Please select which issue you are experiencing:', choices=[(5, 'Unresponsive team members'), (6, 'Issues of significant disagreement'), (7, 'Other')])
+    issue_type = RadioField('Please select which issue you are experiencing:', choices=[(1, 'Unresponsive team members'), (2, 'Issues of significant disagreement'), (3, 'Bullying or harassment within the team'), (4, 'Other')])
     members_involved = RadioField('Which team members are involved in your issue:', choices=[])
     attempts_resolve = BooleanField('If possible, have you made substantial efforts to resolve this problem within the team, allowing time for change/improvements to take place? See [link to advice on team working]')
     issue_description = StringField('Please provide relevant details about your issue in the box below. Include details about when the problem began, how you have attempted to solve it and any suggestions you have going forward. All comments will be kept private but please be as professional as possible.', validators=[DataRequired(), Length(min=50, max=1500)],render_kw={"placeholder":"Describe your issue here."})

@@ -69,7 +69,7 @@ def issues():
         member_list.append((i.id, i.first_name+" "+i.last_name))
     form.members_involved.choices=member_list
     if form.validate_on_submit():
-        issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id ,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
+        issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
         db.session.add(issue)
         db.session.commit()
         reported_user = IssueStudentInvolved(issue_id = issue.id, student_id = form.members_involved.data)
