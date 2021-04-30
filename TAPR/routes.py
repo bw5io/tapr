@@ -63,7 +63,28 @@ def register():
 @app.route("/issues", methods=['GET','POST'])
 def issues():
     form=IssueForm()
+    member = User.query.filter_by(team_id=current_user.team_id).all()
+    member_list = []
+    for i in member:
+        member_list.append((i.id, i.first_name+" "+i.last_name))
+    form.members_involved.choices=member_list
+    if form.validate_on_submit():
+        print("This if Works.")
+        issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id ,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
+        db.session.add(issue)
+        db.session.commit()
+        reported_user = IssueStudentInvolved(issue_id = issue.id, student_id = form.members_involved.data)
+        print(issue.id)
+        db.session.add(reported_user)
+        db.session.commit()
+        flash("Your issue has been recorded and someone will get back to you in 7 working days.")
+        return redirect(url_for('home'))
     return render_template('report_issues.html', title='Report Issues', form=form)
+
+# @app.route("/view-issues", methods=['GET','POST'])
+# def view_issues():
+#     issues=Issue.query.order_by(Issue.team_id.desc()).all()
+#     return render_template('view_issues.html', title='View Reported Issues')
 
 @app.route("/team_reset", methods=['GET', 'POST'])
 def team_reset():
