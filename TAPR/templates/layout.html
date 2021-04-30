@@ -29,6 +29,7 @@
                     <a class="nav-link" id=MJ_navbar href="{{ url_for('team_reset') }}">Team Reset</a>
                     {% elif current_user.is_student == true %}
                     <a class="navbar-brand" id=MJ_navbar href="{{ url_for('issues') }}">Report Issues</a>
+                    <a class="navbar-brand" id=MJ_navbar href="{{ url_for('questionnaire') }}">Allocation Questionnaire</a>
                     {% endif %}
                   </ul>
                 </div>
