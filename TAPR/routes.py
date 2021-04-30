@@ -187,6 +187,10 @@ def calculate_mark_run():
 #Contribution
 @app.route("/contribution", methods=['GET','POST'])
 def contribution():
+    if len(Assessment.query.filter_by(id=1).first().student_team_list) == 0:
+        flash("Teams have not been allocated!")
+        return redirect(url_for('home'))
+
     form=EvaluationForm()
     #List all group members
     member = User.query.filter_by(team_id=current_user.team_id).all()
@@ -194,14 +198,31 @@ def contribution():
     for i in member:
         group_menber.append((i.id, i.first_name+" "+i.last_name ))
     form.student_evaluated.choices=group_menber
+
+
+    #List all questions
+    #questions = ContributionQuestion.query.filter_by(assessment_id=1)
+    #group_menber1 = []
+    #for i in member:
+     #   group_menber.append((i.id))
+    #form.question.choices=group_menber1
+
+
+
     if form.validate_on_submit():
-        #if question >=2 , how to split question_id???
+        #if question >=2 , how to separate them??
         conQues = ContributionQuestion.query.filter_by(assessment_id=1)
         #db.session.add(conQues)
         #db.session.commit()
+
+        if ContributionForm.query.filter_by(team_id = current_user.team_id, student_submitter = current_user.id, student_evaluated =form.student_evaluated.data).first():
+            flash("Already Submitted for this person!")    
+            return redirect(url_for('contribution'))
         conForm = ContributionForm(team_id = current_user.team_id, student_submitter = current_user.id, student_evaluated =form.student_evaluated.data)
         db.session.add(conForm)
         db.session.commit()
+
+
         for question in conQues:
             conAnswer = ContributionFormAnswers(form_id = conForm.id, question_id = question.id, answer = form.question.data )
             db.session.add(conAnswer)
