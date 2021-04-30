@@ -4,13 +4,11 @@
         <meta charset="utf-8">
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
+        <!-- Bootstrap Javascript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
         <!-- My stylesheet -->
         <link rel=stylesheet type=text/css href="{{ url_for('static',
         filename='main.css') }}">
-    
-        <!-- Bootstrap Javascript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
         <!--Google fonts -MJ-->
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Merriweather:wght@300&family=Pacifico&family=Salsa&display=swap" rel="stylesheet">
@@ -24,13 +22,13 @@
               <div class="container-fluid">
                 <div class = "col-md-6 me-auto" id="navbar_left">
                   <ul class="navbar-nav">
-                    <a class="navbar-brand" href="{{ url_for('home') }}">Home</a>
+                    <a class="navbar-brand" id=MJ_navbar href="{{ url_for('home') }}">Home</a>
                     {% if current_user.is_student == false %}
-                    <a class="nav-link" href="{{ url_for('team_allocation') }}">Team Allocation</a>
-                    {% elif current_user.is_student == true %}
-                    <a class="nav-link" href="{{ url_for('team_lists') }}">Team Lists</a>
+                    <a class="nav-link" id=MJ_navbar href="{{ url_for('team_allocation') }}">Team Allocation</a>
+                    <a class="nav-link" id=MJ_navbar href="{{ url_for('team_lists') }}">Team Lists</a>
+                    <a class="nav-link" id=MJ_navbar href="{{ url_for('team_reset') }}">Team Reset</a>
                     {% else %}
-                    <a class="navbar-brand" href="{{ url_for('issues') }}">Report Issues</a>
+                    <a class="navbar-brand" id=MJ_navbar href="{{ url_for('issues') }}">Report Issues</a>
                     {% endif %}
                   </ul>
                 </div>
@@ -42,25 +40,24 @@
                   <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                       {% if current_user.is_authenticated %}
-                      <span class="navbar-text">
+                      <span class="navbar-text MJ_Override" id=MJ_navbar>
                           Hello, {{ current_user.first_name }}!
                       </span>
                       <li class="nav-item">
-                          <a class="nav-link active" aria-current="page" href="{{ url_for('logout') }}">Logout</a>
+                          <a class="nav-link active" id=MJ_navbar aria-current="page" href="{{ url_for('logout') }}">Logout</a>
                       </li>
                       {% else %}
-                      <span class="navbar-text">
+                      <span class="navbar-text MJ_Override" id=MJ_navbar>
                         Hello, Guest!
                       </span>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('login')}}">Login</a>
+                        <a class="nav-link" id=MJ_navbar href="{{url_for('login')}}">Login</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('register')}}">Register</a>
+                        <a class="nav-link" id=MJ_navbar href="{{url_for('register')}}">Register</a>
                       </li>
                       {% endif %}
                     </ul>
-          
                   </div>
                 </div>
               </div>
@@ -95,7 +92,7 @@
 
     <!-- Return to the top of page  -->
     <div class = "text-center py-3">
-        <a class = "text-dark" href=" #top">
+        <a  id=MJ_navbar href=" #top">
             Top ↑
         </a>
     </div>

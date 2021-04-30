@@ -29,10 +29,10 @@ class LoginForm(FlaskForm):
 
 class TeamAllocation(FlaskForm):
     assessment = IntegerField('Assessment ID')
-    team_size = RadioField('Specify team size range by choosing one of the following:', choices=[(5, '5-6 students per group'), (6, '6-7 students per group')])
-    prior_programming = BooleanField('Where possible include at least one student with prior programming experience for each team:')
-    native_speaker = BooleanField('Where possible include at least one English native speaker for each team:')
-    prev_degree = BooleanField('Where possible include at least one BA, BSc, BEng and LLB graduate for each team:')
+    team_size = RadioField(choices=[(5, 'Groups of 5-6 members'), (6, 'Groups of 6-7 members')])
+    prior_programming = BooleanField('Member with prior programming experience')
+    native_speaker = BooleanField('English native speaker')
+    prev_degree = BooleanField('BA, BSc, BEng and LLB graduate')
     submit = SubmitField('Submit')
 
 class IssueForm(FlaskForm):
@@ -54,3 +54,8 @@ class QuestionnaireForm(FlaskForm):
     coding_experience=BooleanField("Coding Experience")
     degree_program=SelectField("Degree Program: ", choices=[("BA"), ("BSc"), ("LLM"), ("BEng")], coerce=str, validators=[DataRequired()])
     submit = SubmitField("Form Complete")
+
+
+class TeamReset(FlaskForm):
+    assessment = IntegerField('Assessment ID')
+    submit = SubmitField('Submit')

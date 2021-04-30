@@ -94,11 +94,16 @@ class ContributionForm(db.Model):
     student_evaluated = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
     contribution_answers = db.relationship("ContributionFormAnswers")
     
+    def __repr__(self):
+        return f"{self.id}, {self.team_id}, {self.student_evaluated}, {self.student_submitter}"
+
+
 class ContributionQuestion(db.Model): 
     __tablename__ = "ContributionQuestion"
     id = db.Column(db.Integer, primary_key=True)
     assessment_id = db.Column(db.Integer, db.ForeignKey('Assessment.id'), nullable=False)
-    question = db.Column(db.String(120), nullable=False) 
+    question = db.Column(db.String(120), nullable=False)
+
 
 class ContributionFormAnswers(db.Model):
     __tablename__ = "ContributionFormAnswers"
@@ -113,7 +118,18 @@ class TeamMarkPercentage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_mark_percentage = db.Column(db.Integer, nullable=False)
     student = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
-     
+
+    def __repr__(self):
+        return f"{self.id}, {self.team_mark_percentage}, {self.student}"
+
+
+class TeamComposition(db.Model):
+    __tablename__ = "TeamComposition"
+    id = db.Column(db.Integer, primary_key=True)
+    team_size = db.Column(db.Integer)
+    native_speaker = db.Column(db.Boolean)
+    coding_experience = db.Column(db.Boolean)
+    previous_degree = db.Column(db.Boolean)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -129,3 +145,4 @@ def load_user(user_id):
 #     id = db.Column(db.Integer, primary_key=True)
 #     issue_description = db.Column(db.String(120))
 #     # Assessment_id = db.Column(db.Integer, db.ForeignKey('Issue.id'), nullable=False)
+
