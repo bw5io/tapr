@@ -82,9 +82,9 @@ def issues():
 
 @app.route("/view-issues", methods=['GET','POST'])
 def view_issues():
-    # issues=Issue.query.order_by(Issue.team_id.desc()).all()
-    # return render_template('view_issues.html', title='View Reported Issues')
-    return None
+    issues=Issue.query.order_by(Issue.team_id.desc()).all()
+    return render_template('view_issues.html', title='View Reported Issues', issues=issues)
+    
 
 @app.route("/team_reset", methods=['GET', 'POST'])
 def team_reset():

@@ -1,4 +1,4 @@
-<!-- {% extends "layout.html" %}
+{% extends "layout.html" %}
 
 {% block sub_header %}
     <h2>View Issues</h2>
@@ -6,13 +6,15 @@
 
 {% block content %}
   {% for issue in issues %}
-      <!-- <p>{{ issue.title }}</a></h3> </br>
-          <p class = "pb-3">{{ post.description }}</p>
-          <a href="{{ url_for('post', post_id=post.id) }}"><img class = "blog_pic" src="{{ url_for('static', filename='img/' + post.image_file) }}"></a>
-          <p class = "pt-3">&nbsp by {{ post.user.first_name }} {{ post.user.surname }}</p>
-          <p>Last updated: <span>{{ post.date }}</span></p>
+  <h3>* Team Involved </h3>
+      <p>{{ issue.team_id }}</a></h3> </br>
+          <p class = "pb-3">{{ issue.applicant_id }}</p>
+         
+          <p class = "pt-3">&nbsp by {{ issue.students_involved }} {{ issue.issue_type }}</p>
+          <p>Last updated: <span>{{ issue.attempts_resolve }}</span></p>
+          <p class = "pb-3">{{ issue.issue_description }}</p>
+
         </div>
-      </div> -->
-      <!-- <hr class="mt-2 mb-3">
-    {% endfor %}
-{% endblock content %} --> -->
+      </div> 
+  {% endfor %}
+{% endblock content %}
