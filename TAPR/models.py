@@ -85,7 +85,6 @@ class BandWeighting(db.Model):
     def __repr__(self):
         return f"{self.id}, {self.contribution_avg}, {self.teamMark_percentage}"
 
-
     
 # Tables for Peer Contribution Form
 class ContributionForm(db.Model):
@@ -120,6 +119,7 @@ class TeamMarkPercentage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_mark_percentage = db.Column(db.Integer, nullable=False)
     student = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)
+    assessment_id = db.Column(db.Integer, db.ForeignKey("Assessment.id"), nullable=False)
 
     def __repr__(self):
         return f"{self.id}, {self.team_mark_percentage}, {self.student}"

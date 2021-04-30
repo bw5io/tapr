@@ -51,3 +51,12 @@ class QuestionnaireForm(FlaskForm):
     coding_experience=BooleanField("Coding Experience")
     degree_program=SelectField("Degree Program: ", choices=[("BA"), ("BSc"), ("LLM"), ("BEng")], coerce=str, validators=[DataRequired()])
     submit = SubmitField("Form Complete")
+
+# Forms for Student Mark Percentage Calculation
+# class CriteriaForm(FlaskForm):
+#     contribution_avg = IntegerField('Contribution Index')
+#     teammark_percentage = IntegerField('Result')
+
+# class BandWeightingForm(FlaskForm):
+#     criteria = FieldList(CriteriaForm())
+#     submit = SubmitField("Submit")
