@@ -1,6 +1,3 @@
-
-<!--JAKE YOU WANTED TO ADD FORM VALIDATORS DONT FORGET :)-->
-
 {% extends "layout.html" %}
 {% block content %}
 
@@ -10,20 +7,22 @@
     {{ form.csrf_token }} 
 <div id=JI_assessment>
     {{ form.assessment.label }}
-    {% for error in form.assessment.errors %} 
-    <span>[{{ error }}]</span> 
-    {% endfor %} 
     {{ form.assessment }} 
+    {% for error in form.assessment.errors %} 
+    <br>
+    <p class="JI_error">[Please enter a number.]</p>
+    {% endfor %} 
 </div>
 
 <div> 
-    <p class=JI_information>Specify team size by chosing one of the following:</p>
-    {% for error in form.team_size.errors %} 
-        <span>[{{ error }}]</span> 
-    {% endfor %} 
-
+    <p class=JI_information>Specify team size by chosing one of the following:</p> 
     {{ form.team_size }} 
+    {% for error in form.team_size.errors %} 
+    <p class="JI_error">[Please select team size.]</p> 
+    {% endfor %}
 </div>
+
+
 
 <hr class=JI_HR>
     <centre><p class=JI_information>Additional Parameters</p></centre>

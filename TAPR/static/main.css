@@ -1,10 +1,25 @@
 body {
     color: #206a5d;
 }
+
+/*layout.html*/
+#MJ_navbar{
+    font-family: 'Bree Serif', serif;
+    color:#007965;
+    text-decoration: none;
+}
+#MJ_navbar:hover{
+    color: #00af91;
+}
+.MJ_Override{
+    margin-right: 30px;
+}
+
 /*team_allocation.html*/
 #JI_assessment{
     padding: 10px 0 15px 0;
     font-family: 'Bree Serif', serif;
+    text-align: center;
 }
 .JI_box{
     padding-left: 25px;
@@ -39,7 +54,16 @@ body {
     margin-bottom: 0px;
     font-family: 'Bree Serif', serif;
     row-gap: 0em;
+    text-align: center;
 }
+
+.JI_error{
+    text-align: center;
+    color:cyan;
+    font-weight: 200;
+    font-family: 'Bree Serif', serif;
+}
+
 #JI_Margin{
     margin-bottom: 5px;
     margin-top: 0;
@@ -76,6 +100,7 @@ body {
     list-style: none;
     padding-left: 80px;
 }
+
 /*************Meg CSS************/
 /*home.html*/
 .Avatars{

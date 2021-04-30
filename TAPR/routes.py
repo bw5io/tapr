@@ -81,18 +81,31 @@ def issues():
         return redirect(url_for('home'))
     return render_template('report_issues.html', title='Report Issues', form=form)
 
+@app.route("/team_reset", methods=['GET', 'POST'])
+def team_reset():
+    form = TeamReset()
+    if form.validate_on_submit():
+        if Assessment.query.filter_by(id=form.assessment.data).first() == None:
+            flash("Assessment ID not recognized. Please make sure the assessment has been created.")
+            return redirect(url_for('team_reset'))
+        if form.assessment.data == 1:
+            return redirect(url_for('reset_user'))
+    return render_template('team_reset.html', title = "Team Reset", form=form)
+
 @app.route("/team_allocation", methods=['GET', 'POST'])
 def team_allocation():
     form = TeamAllocation()
     if form.validate_on_submit():
+        if Assessment.query.filter_by(id=form.assessment.data).first() == None:
+            flash("Assessment ID not recognized. Please make sure the assessment has been created.")
+            return redirect(url_for('team_allocation'))
         if len(Assessment.query.filter_by(id=form.assessment.data).first().student_team_list) > 0:
-            flash("Teams already allocated!")
+            flash("Teams have already been allocated.")
             return redirect(url_for('home'))
-            
+
         #Add team composition to database
         team_composition = TeamComposition(id = 1, team_size=form.team_size.data, native_speaker=form.native_speaker.data, coding_experience=form.prior_programming.data, previous_degree=form.prev_degree.data)
         db.session.add(team_composition)
-
 
         assessment = Assessment.query.filter_by(id=form.assessment.data).first()
         students = User.query.filter_by(assessment_id=assessment.id).all()
@@ -112,7 +125,7 @@ def team_allocation():
         allocateStudents(teams, students, min_team_size) #Allocate any students not allocated
 
         db.session.commit()
-        flash("Teams have been allocated!")
+        flash("Teams have successfully been allocated.")
         return redirect(url_for('home'))
 
     return render_template('team_allocation.html', title = "Team Allocation", form=form)
@@ -224,7 +237,7 @@ def reset_user():
     db.session.commit()
     db.session.query(TeamComposition).delete()
     db.session.commit()
-    flash("Reset completed.")
+    flash("Reset complete.")
     return redirect(url_for('home'))
 
 @app.route("/utility/batch_marking")
