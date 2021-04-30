@@ -21,7 +21,7 @@ def login():
     form=LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(id=form.id.data).first()
-        if user is not None and user.verify_password(form.password.data): 
+        if user is not None and user.verify_password(form.password.data):
             login_user(user)
             flash("Login Success!")
             next=request.args.get('next')
@@ -58,20 +58,59 @@ def register():
     #     flash_errors(form)
     return render_template('register.html', title='Register', form=form)
 
-
-
 @app.route("/issues", methods=['GET','POST'])
 def issues():
     form=IssueForm()
+    member = User.query.filter_by(team_id=current_user.team_id).all()
+    member_list = []
+    for i in member:
+        member_list.append((i.id, i.first_name+" "+i.last_name))
+    form.members_involved.choices=member_list
+    if form.validate_on_submit():
+        print("This if Works.")
+        issue=Issue(team_id = current_user.team_id, applicant_id =current_user.id ,issue_type=form.issue_type.data,attempts_resolve=form.attempts_resolve.data,issue_description=form.issue_description.data)
+        db.session.add(issue)
+        db.session.commit()
+        reported_user = IssueStudentInvolved(issue_id = issue.id, student_id = form.members_involved.data)
+        print(issue.id)
+        db.session.add(reported_user)
+        db.session.commit()
+        flash("Your issue has been recorded and someone will get back to you in 7 working days.")
+        return redirect(url_for('home'))
     return render_template('report_issues.html', title='Report Issues', form=form)
+
+@app.route("/view-issues", methods=['GET','POST'])
+def view_issues():
+    # issues=Issue.query.order_by(Issue.team_id.desc()).all()
+    # return render_template('view_issues.html', title='View Reported Issues')
+    return None
+
+@app.route("/team_reset", methods=['GET', 'POST'])
+def team_reset():
+    form = TeamReset()
+    if form.validate_on_submit():
+        if Assessment.query.filter_by(id=form.assessment.data).first() == None:
+            flash("Assessment ID not recognized. Please make sure the assessment has been created.")
+            return redirect(url_for('team_reset'))
+        if form.assessment.data == 1:
+            return redirect(url_for('reset_user'))
+    return render_template('team_reset.html', title = "Team Reset", form=form)
 
 @app.route("/team_allocation", methods=['GET', 'POST'])
 def team_allocation():
     form = TeamAllocation()
     if form.validate_on_submit():
+        if Assessment.query.filter_by(id=form.assessment.data).first() == None:
+            flash("Assessment ID not recognized. Please make sure the assessment has been created.")
+            return redirect(url_for('team_allocation'))
         if len(Assessment.query.filter_by(id=form.assessment.data).first().student_team_list) > 0:
-            flash("Teams already allocated!")
+            flash("Teams have already been allocated.")
             return redirect(url_for('home'))
+
+        #Add team composition to database
+        team_composition = TeamComposition(id = 1, team_size=form.team_size.data, native_speaker=form.native_speaker.data, coding_experience=form.prior_programming.data, previous_degree=form.prev_degree.data)
+        db.session.add(team_composition)
+
         assessment = Assessment.query.filter_by(id=form.assessment.data).first()
         students = User.query.filter_by(assessment_id=assessment.id).all()
         min_team_size = int(form.team_size.data)
@@ -90,19 +129,21 @@ def team_allocation():
         allocateStudents(teams, students, min_team_size) #Allocate any students not allocated
 
         db.session.commit()
-        flash("Teams have been allocated!")
+        flash("Teams have successfully been allocated.")
         return redirect(url_for('home'))
-        
+
     return render_template('team_allocation.html', title = "Team Allocation", form=form)
 
 @app.route("/team_lists")
 def team_lists():
     assessment = Assessment.query.filter_by(id=1).first()
-    return render_template('team_lists.html', title='Team List', assessment=assessment)
+    team_composition = TeamComposition.query.filter_by(id=1).first()
+    return render_template('team_lists.html', title='Team List', assessment=assessment, team_composition=team_composition)
 
 @app.route("/team_lists/downloads")
 def team_lists_download():
     assessment = User.query.filter_by(assessment_id=1).all()
+    assessment.sort(key=returnTeamID)
     return render_csv("Team ID, Surname, First Name, Student ID, Email, Native Speaker, Coding Experience, Previous Degree",assessment,"team_list.csv")
 
 @app.route("/team/<int:team_id>")
@@ -141,10 +182,19 @@ def calculate_mark():
     assessment = Assessment.query.all()
     return render_template("calculate_mark.html", title = "", assessment = assessment)
 
-@app.route('/calculate_mark/criteria/<int:assessment_id>')
-def calculate_mark_criteria(assessment_id):
-    assessment = Assessment.query.all()
-    return render_template("calculate_mark.html", title = "", assessment = assessment)
+@app.route('/calculate_mark/criteria/<int:assessment_id>/<int:criteria_id>')
+def calculate_mark_criteria_set(assessment_id, criteria_id):
+    option_a = [(130, 110), (70, 100), (30, 80), (0, 0)]
+    option_b = [(140, 110), (80, 100), (40, 80), (0, 0)]
+    if criteria_id==1:
+        criteria=option_a
+    else:
+        criteria=option_b
+    for ind,per in criteria:
+        newBW = BandWeighting(assessment=assessment_id, contribution_avg=ind, teamMark_percentage=per)
+        db.session.add(newBW)
+        db.commit()
+    return redirect(url_for("calculate_mark_run",assessment_id = assessment_id))
 
 @app.route('/calculate_mark/run/<int:assessment_id>')
 def calculate_mark_run(assessment_id):
@@ -173,8 +223,8 @@ def calculate_mark_run(assessment_id):
 
 @app.route('/calculate_mark/result/<int:assessment_id>')
 def calculate_mark_result(assessment_id):
-    result = TeamMarkPercentage
-    return "To be constructed"
+    result = TeamMarkPercentage.query.filter_by(assessment_id=assessment_id).all()
+    return redirect( url_for( 'calculate_mark_result', result = result ) )
 
 
 @app.route('/calculate_mark/csv/<int:assessment_id>')
@@ -207,6 +257,8 @@ def reset_user():
         user.previous_degree=choice(seq=["BA", "BSc", "LLB", "BEng"])
         print(user)
         db.session.commit()
+    db.session.query(IssueStudentInvolved).delete()
+    db.session.commit()
     db.session.query(TeamMarkPercentage).delete()
     db.session.commit()
     db.session.query(ContributionFormAnswers).delete()
@@ -217,7 +269,9 @@ def reset_user():
     db.session.commit()
     db.session.query(Team).delete()
     db.session.commit()
-    flash("Reset completed.")
+    db.session.query(TeamComposition).delete()
+    db.session.commit()
+    flash("Reset complete.")
     return redirect(url_for('home'))
 
 @app.route("/utility/batch_marking")
