@@ -25,6 +25,29 @@ secondary: font-family: 'Pacifico', cursive;
 .MJ_Override{
     margin-right: 30px;
 }
+.footerPictures{
+    width: 40px;
+}
+#footer{
+    font-size: 10px;
+    text-align: center;
+}
+.footerText{
+    margin-bottom: 0;
+}
+#footerHR{
+    width: 25%;
+    border: 2px dotted #007965;
+    border-style: none none dotted;
+    background-color: transparent;   
+    opacity: 100%;     
+    border-width: 5px;
+    height: 2px;
+    margin: auto;
+}
+#footerMembers{
+    font-weight: bold;
+}
 /*home.html*/
 .Avatars{
     width: 150px;
@@ -126,6 +149,9 @@ secondary: font-family: 'Pacifico', cursive;
 	text-shadow:0px 1px 0px #a8a8a8;
     margin-left: 120px;
     padding-top: 0;
+    padding-right: 10px;
+    margin-top: 10px;
+    font-family: 'Bree Serif', serif;
 }
 .MJ_loginButton:hover {
     background-color:#81d1c4;
