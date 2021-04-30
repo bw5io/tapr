@@ -55,8 +55,9 @@ class Issue(db.Model):
     applicant_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
     applicant = db.relationship("User",back_populates="issues_submitted")
     students_involved = db.relationship('IssueStudentInvolved')
-    issue_type_description = db.Column(db.String(100), nullable=False)
-    complaint = db.Column(db.String(1000))
+    issue_type = db.Column(db.String(100), nullable=False)
+    attempts_resolve = db.Column(db.Boolean, nullable=False, default=False)
+    issue_description = db.Column(db.String(1000))
     
 
 class IssueStudentInvolved(db.Model):
@@ -125,6 +126,14 @@ class TeamMarkPercentage(db.Model):
         return f"{self.id}, {self.team_mark_percentage}, {self.student}"
 
 
+class TeamComposition(db.Model):
+    __tablename__ = "TeamComposition"
+    id = db.Column(db.Integer, primary_key=True)
+    team_size = db.Column(db.Integer)
+    native_speaker = db.Column(db.Boolean)
+    coding_experience = db.Column(db.Boolean)
+    previous_degree = db.Column(db.Boolean)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -139,3 +148,4 @@ def load_user(user_id):
 #     id = db.Column(db.Integer, primary_key=True)
 #     issue_description = db.Column(db.String(120))
 #     # Assessment_id = db.Column(db.Integer, db.ForeignKey('Issue.id'), nullable=False)
+

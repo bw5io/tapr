@@ -22,13 +22,19 @@
     {% endfor %}  
     {{ form.attempts_resolve }} 
 
+    {{ form.members_involved.label }}
+    {% for error in form.members_involved.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.members_involved }} 
+
     {{ form.issue_description.label }}
     {% for error in form.issue_description.errors %} 
     <span>[{{ error }}]</span> 
     {% endfor %}  
     {{ form.issue_description }} 
 
-
+    <p>{{form.submit(class_="btn")}}</p>
 
     
   </form>
