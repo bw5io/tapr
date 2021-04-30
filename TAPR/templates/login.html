@@ -1,20 +1,37 @@
 {% extends "layout.html" %}
-
-{% block sub_header %}
-    <h2>Login</h2>
-{% endblock sub_header %}
-
 {% block content %}
-<div class="formpage">
-<div class="space"></div>
+<h1 id=MJ_loginWelcome>Welcome back</h1>
+<h2 id=MJ_loginTitle>Login to enter</h2>
+
+<div id="MJ_loginForm">
 <form action="" method="post">
     {{form.csrf_token}}
-    <p>{{form.id.label(class_="lb")}}{{form.id(class_="inputline")}}</p>
-    <p>{{form.password.label(class_="lb")}}{{form.password(class_="inputline")}}</p>
-    <div class="space"></div>
-    <p><a href="{{ url_for('register') }}"> Not Registered?</a></p>
-    <div class="space"></div>
-    <p>{{form.submit(class_="btn")}}</p>
+    <table>
+        <tr>
+            <td class="MJ_loginTable">
+            {{form.id.label(class_="lb")}}
+            </td>
+            <td class="MJ_loginTable">
+            {{form.id(class_="inputline")}}
+            </td>
+        </tr>
+        <tr>
+            <td class="MJ_loginTable">
+            {{form.password.label(class_="lb")}}
+            </td>
+            <td class="MJ_loginTable">
+            {{form.password(class_="inputline")}}
+            </td>
+        </tr>
+        <tr>
+            <td class="MJ_loginTable">
+            <a id="MJ_registerLink" href="{{ url_for('register') }}"> Not Registered?</a>
+            </td>
+            <td class="MJ_loginTable MJ_loginButton" id="MJ_loginButton">
+            {{form.submit(class_="btn")}}
+            </td>
+        </tr>
+    </table>
 </form>
 </div>
 {% endblock content %}

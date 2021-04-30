@@ -14,7 +14,86 @@ body {
 .MJ_Override{
     margin-right: 30px;
 }
-
+/*login.html*/
+#MJ_loginTitle{
+    display: grid;
+    justify-items: center;
+    color: #206a5d;
+    font-family: 'Bree Serif', serif;
+    font-size: 50px;
+    padding-bottom: 40px;
+    text-shadow: 2px 2px 4px grey;
+}
+#MJ_loginForm{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    color: white;
+    background-color: #206a5d;
+    border-style: solid;
+    border-color: #00af91;
+    border-width: 2px;
+    border-radius: 10px;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 5px 5px 5px grey;
+    width: 500px;
+    margin: auto;
+}
+#MJ_loginWelcome{
+    display: grid;
+    justify-items: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 60px;
+}
+#MJ_registerLink{
+    text-decoration: none;
+    font-size:10px;
+    color: white;
+}
+#MJ_registerLink:hover{
+    color: #81d1c4;
+}
+.MJ_loginTable{
+    padding-right: 10px;
+    margin-top: 10px;
+    padding-top: 10px;
+    font-family: 'Bree Serif', serif;
+}
+#submit{
+    padding-left: 10px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-size: 12px;
+}
+.MJ_loginButton{
+    box-shadow: 3px 4px 0px 0px #ababab;
+	background-color:#ffffff;
+	border-radius:15px;
+	border:1px solid #878787;
+	display:inline-block;
+	cursor:pointer;
+	color:#007965;
+	font-family: 'Bree Serif', serif;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #a8a8a8;
+    margin-left: 120px;
+    padding-top: 0;
+}
+.MJ_loginButton:hover {
+    background-color:#81d1c4;
+}
+.MJ_loginButton:active {
+    position:relative;
+    top:1px;
+}
+#MJ_loginButton:active{
+    position:relative;
+	top:1px;
+}
+#MJ_loginButton:hover{
+background-color:#81d1c4;
+}
 /*team_allocation.html*/
 #JI_assessment{
     padding: 10px 0 15px 0;
@@ -56,14 +135,12 @@ body {
     row-gap: 0em;
     text-align: center;
 }
-
 .JI_error{
     text-align: center;
     color:cyan;
     font-weight: 200;
     font-family: 'Bree Serif', serif;
 }
-
 #JI_Margin{
     margin-bottom: 5px;
     margin-top: 0;
