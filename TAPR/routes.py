@@ -59,7 +59,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-# Issues 
+
 @app.route("/issues", methods=['GET','POST'])
 def issues():
     form=IssueForm()
@@ -101,16 +101,14 @@ def team_reset():
 def team_allocation():
     form = TeamAllocation()
     if form.validate_on_submit():
-        if Assessment.query.filter_by(id=form.assessment.data).first() == None:
-            flash("Assessment ID not recognized. Please make sure the assessment has been created.")
-            return redirect(url_for('team_allocation'))
         if len(Assessment.query.filter_by(id=form.assessment.data).first().student_team_list) > 0:
-            flash("Teams have already been allocated.")
+            flash("Teams already allocated!")
             return redirect(url_for('home'))
-
+            
         #Add team composition to database
         team_composition = TeamComposition(id = 1, team_size=form.team_size.data, native_speaker=form.native_speaker.data, coding_experience=form.prior_programming.data, previous_degree=form.prev_degree.data)
         db.session.add(team_composition)
+
 
         assessment = Assessment.query.filter_by(id=form.assessment.data).first()
         students = User.query.filter_by(assessment_id=assessment.id).all()
@@ -130,7 +128,7 @@ def team_allocation():
         allocateStudents(teams, students, min_team_size) #Allocate any students not allocated
 
         db.session.commit()
-        flash("Teams have successfully been allocated.")
+        flash("Teams have been allocated!")
         return redirect(url_for('home'))
 
     return render_template('team_allocation.html', title = "Team Allocation", form=form)
@@ -177,18 +175,11 @@ def questionnaire():
 
 @app.route('/calculate_mark')
 def calculate_mark():
-    assessment = Assessment.query.all()
-    return render_template("calculate_mark.html", title = "", assessment = assessment)
+    return render_template("team_allocation.html", title = "")
 
-@app.route('/calculate_mark/criteria/<int:assessment_id>')
-def calculate_mark_criteria(assessment_id):
-    assessment = Assessment.query.all()
-    return render_template("calculate_mark.html", title = "", assessment = assessment)
-
-@app.route('/calculate_mark/run/<int:assessment_id>')
-def calculate_mark_run(assessment_id):
-    teams = Team.query.filter_by(assessment_id=assessment_id).all()
-    marking_tier = BandWeighting.query.filter_by(assessment=assessment_id).order_by(BandWeighting.contribution_avg.desc()).all()
+@app.route('/calculate_mark_run')
+def calculate_mark_run():
+    teams = Team.query.filter_by(assessment_id=1).all()
     for team in teams:
         mark = {}
         for form in team.contribution_forms:
@@ -198,27 +189,62 @@ def calculate_mark_run(assessment_id):
                 mark[student]+=answer.answer
         team_average = mean(mark.values())
         for i,j in mark.items():
-            team_mark_index=int(round(100*j/team_average,0))
-            for criteria in marking_tier:
-                if team_mark_index>criteria.contribution_avg:
-                    student_mark_percentage = criteria.teamMark_percentage
-                    break
-            newTMP = TeamMarkPercentage(student=i,team_mark_percentage=student_mark_percentage)
+            newTMP = TeamMarkPercentage(student=i,team_mark_percentage=int(round(100*j/team_average,0)))
             db.session.add(newTMP)
             db.session.commit()
             print(newTMP)
         print(team.id, mark, mean(mark.values()))
-    return redirect(url_for('calculate_mark_result', assessment_id = assessment_id))
 
-@app.route('/calculate_mark/result/<int:assessment_id>')
-def calculate_mark_result(assessment_id):
-    result = TeamMarkPercentage
-    return "To be constructed"
+    return "Done"
+
+#Contribution
+@app.route("/contribution", methods=['GET','POST'])
+def contribution():
+    if len(Assessment.query.filter_by(id=1).first().student_team_list) == 0:
+        flash("Teams have not been allocated!")
+        return redirect(url_for('home'))
+
+    form=EvaluationForm()
+    #List all group members
+    member = User.query.filter_by(team_id=current_user.team_id).all()
+    group_menber = []
+    for i in member:
+        group_menber.append((i.id, i.first_name+" "+i.last_name ))
+    form.student_evaluated.choices=group_menber
 
 
-@app.route('/calculate_mark/csv/<int:assessment_id>')
-def calculate_mark_result_csv(assessment_id):
-    return None
+    #List all questions
+    #questions = ContributionQuestion.query.filter_by(assessment_id=1)
+    #group_menber1 = []
+    #for i in member:
+     #   group_menber.append((i.id))
+    #form.question.choices=group_menber1
+
+
+
+    if form.validate_on_submit():
+        #if question >=2 , how to separate them??
+        conQues = ContributionQuestion.query.filter_by(assessment_id=1)
+        #db.session.add(conQues)
+        #db.session.commit()
+
+        if ContributionForm.query.filter_by(team_id = current_user.team_id, student_submitter = current_user.id, student_evaluated =form.student_evaluated.data).first():
+            flash("Already Submitted for this person!")    
+            return redirect(url_for('contribution'))
+        conForm = ContributionForm(team_id = current_user.team_id, student_submitter = current_user.id, student_evaluated =form.student_evaluated.data)
+        db.session.add(conForm)
+        db.session.commit()
+
+
+        for question in conQues:
+            conAnswer = ContributionFormAnswers(form_id = conForm.id, question_id = question.id, answer = form.question.data )
+            db.session.add(conAnswer)
+            db.session.commit()
+        flash("Your evaluation submitted successfully.")
+        return redirect(url_for('contribution'))
+    return render_template('peer_self_forms.html', title='Contribution', form=form)
+    
+ 
 
 # Customized Scripts
 
@@ -260,7 +286,7 @@ def reset_user():
     db.session.commit()
     db.session.query(TeamComposition).delete()
     db.session.commit()
-    flash("Reset complete.")
+    flash("Reset completed.")
     return redirect(url_for('home'))
 
 @app.route("/utility/batch_marking")

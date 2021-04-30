@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block sub_header %}
+    <h1 id=JI_Title>Peer/Self-Assessment Contribution</h1>
+
+{% endblock sub_header %}
+
+{% block content %}
+
+  <form action="" method="post" id = Contribution>
+      {{form.csrf_token}}
+    
+<div>
+    {{ form.student_evaluated.label }}
+    {% for error in form.student_evaluated.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.student_evaluated }} 
+</div>
+    <br>
+    <br>
+
+<div>
+    {{ form.question.label }}
+    {% for error in form.question.errors %} 
+    <span>[{{ error }}]</span> 
+    {% endfor %}  
+    {{ form.question}} 
+</div>
+
+    <div>
+    <p>{{form.submit(class_="btn")}}</p>
+    </div>
+
+    
+  </form>
+  </div>
+{% endblock content %}
