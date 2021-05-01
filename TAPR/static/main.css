@@ -430,3 +430,56 @@ span{
     color: #00af91;
 }
 /*END of Meg CSS*/
+
+
+
+
+
+/*   Peer/Self-Assessment Contribution   */
+#JL_Contribution{
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 500px;
+    margin: auto;
+}
+.JL_member{
+    font-family: 'Bree Serif', serif;
+}
+#JL_answer{
+    margin-top: 15px;
+    margin-bottom: 45px;
+    box-shadow: 3px 4px 0px -2px #ababab;
+	background-color:#206a5d;
+	border-radius:15px;
+	border:1px solid #878787;
+	cursor:pointer;
+	color:#ffffff;
+	font-family: 'Bree Serif', serif;
+	padding:20px 20px;
+}
+
+#question{
+    list-style-type:none;
+    margin-top: 15px;
+    margin-bottom: 45px;
+}
+
+.JL_btn{
+    color: white;
+    background-color:#206a5d;
+    box-shadow: 3px 4px 0px -2px #ababab;
+	border-radius:15px;
+	border:1px solid #878787;
+	display:block;
+    margin:0 auto;
+	cursor:pointer;
+	font-family:Arial;
+	font-size:17px;
+	padding:0px 7px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #a8a8a8;
+    
+}
+
+
+/*   End  of  Peer/Self-Assessment Contribution   */
