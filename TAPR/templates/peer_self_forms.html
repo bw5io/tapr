@@ -7,10 +7,10 @@
 
 {% block content %}
 
-  <form action="" method="post" id = Contribution>
+<form action="" method="post" id = JL_Contribution>
       {{form.csrf_token}}
     
-<div>
+<div class = JL_member>
     {{ form.student_evaluated.label }}
     {% for error in form.student_evaluated.errors %} 
     <span>[{{ error }}]</span> 
@@ -18,9 +18,7 @@
     {{ form.student_evaluated }} 
 </div>
     <br>
-    <br>
-
-<div>
+<div id = JL_answer>
     {{ form.question.label }}
     {% for error in form.question.errors %} 
     <span>[{{ error }}]</span> 
@@ -28,8 +26,9 @@
     {{ form.question}} 
 </div>
 
+
     <div>
-    <p>{{form.submit(class_="btn")}}</p>
+    <p>{{form.submit(class_="JL_btn")}}</p>
     </div>
 
     
