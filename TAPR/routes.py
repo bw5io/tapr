@@ -58,8 +58,6 @@ def register():
     #     flash_errors(form)
     return render_template('register.html', title='Register', form=form)
 
-
-
 @app.route("/issues", methods=['GET','POST'])
 def issues():
     form=IssueForm()
@@ -95,7 +93,7 @@ def team_reset():
             flash("Assessment ID not recognized. Please make sure the assessment has been created.")
             return redirect(url_for('team_reset'))
         if form.assessment.data == 1:
-            return redirect(url_for('reset_user'))
+            return redirect(url_for('reset_teams'))
     return render_template('team_reset.html', title = "Team Reset", form=form)
 
 @app.route("/team_allocation", methods=['GET', 'POST'])
@@ -184,10 +182,19 @@ def calculate_mark():
     assessment = Assessment.query.all()
     return render_template("calculate_mark.html", title = "", assessment = assessment)
 
-@app.route('/calculate_mark/criteria/<int:assessment_id>')
-def calculate_mark_criteria(assessment_id):
-    assessment = Assessment.query.all()
-    return render_template("calculate_mark.html", title = "", assessment = assessment)
+@app.route('/calculate_mark/criteria/<int:assessment_id>/<int:criteria_id>')
+def calculate_mark_criteria_set(assessment_id, criteria_id):
+    option_a = [(130, 110), (70, 100), (30, 80), (0, 0)]
+    option_b = [(140, 110), (80, 100), (40, 80), (0, 0)]
+    if criteria_id==1:
+        criteria=option_a
+    else:
+        criteria=option_b
+    for ind,per in criteria:
+        newBW = BandWeighting(assessment=assessment_id, contribution_avg=ind, teamMark_percentage=per)
+        db.session.add(newBW)
+        db.session.commit()
+    return redirect(url_for("calculate_mark_run",assessment_id = assessment_id))
 
 @app.route('/calculate_mark/run/<int:assessment_id>')
 def calculate_mark_run(assessment_id):
@@ -207,22 +214,32 @@ def calculate_mark_run(assessment_id):
                 if team_mark_index>criteria.contribution_avg:
                     student_mark_percentage = criteria.teamMark_percentage
                     break
-            newTMP = TeamMarkPercentage(student=i,team_mark_percentage=student_mark_percentage)
+            newTMP = TeamMarkPercentage(assessment_id=assessment_id, student=i,team_mark_percentage=student_mark_percentage)
             db.session.add(newTMP)
             db.session.commit()
             print(newTMP)
         print(team.id, mark, mean(mark.values()))
-    return redirect(url_for('calculate_mark_result', assessment_id = assessment_id))
+    return redirect(url_for('calculate_mark_results', assessment_id = assessment_id))
 
 @app.route('/calculate_mark/result/<int:assessment_id>')
-def calculate_mark_result(assessment_id):
-    result = TeamMarkPercentage
-    return "To be constructed"
+def calculate_mark_results(assessment_id):
+    result = TeamMarkPercentage.query.filter_by(assessment_id=assessment_id).all()
+    assessment = Assessment.query.filter_by(id = assessment_id).first()
+    return render_template( 'calculate_mark_results.html', result = result, assessment = assessment)
 
 
 @app.route('/calculate_mark/csv/<int:assessment_id>')
 def calculate_mark_result_csv(assessment_id):
-    return None
+    assessment = Assessment.query.filter_by(id = assessment_id).first()
+    output = []
+    for team in assessment.student_team_list:
+        for user in team.team_members:
+            current = str(user.team_id)+","+user.first_name+" "+user.last_name+","+str(user.team_mark_percentage[0].team_mark_percentage)
+            output.append(current)
+    return render_csv("Team ID, Student Name, Percentage", output)
+            
+
+
 
 # Customized Scripts
 
@@ -265,6 +282,30 @@ def reset_user():
     db.session.query(TeamComposition).delete()
     db.session.commit()
     flash("Reset complete.")
+    return redirect(url_for('home'))
+
+
+@app.route("/utility/reset_teams")
+def reset_teams():
+    for i in range(1001,1099,1):
+        user= User.query.filter_by(id=i).first()
+        user.team_id=None
+        db.session.commit()
+    db.session.query(IssueStudentInvolved).delete()
+    db.session.commit()
+    db.session.query(TeamMarkPercentage).delete()
+    db.session.commit()
+    db.session.query(ContributionFormAnswers).delete()
+    db.session.commit()
+    db.session.query(ContributionForm).delete()
+    db.session.commit()
+    db.session.query(Issue).delete()
+    db.session.commit()
+    db.session.query(Team).delete()
+    db.session.commit()
+    db.session.query(TeamComposition).delete()
+    db.session.commit()
+    flash("Teams have been reset.")
     return redirect(url_for('home'))
 
 @app.route("/utility/batch_marking")

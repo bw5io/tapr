@@ -57,7 +57,6 @@ class QuestionnaireForm(FlaskForm):
     degree_program=SelectField("Degree Program: ", choices=[("BA"), ("BSc"), ("LLM"), ("BEng")], coerce=str, validators=[DataRequired()])
     submit = SubmitField("Form Complete")
 
-
 # Forms for Student Mark Percentage Calculation
 # class CriteriaForm(FlaskForm):
 #     contribution_avg = IntegerField('Contribution Index')
