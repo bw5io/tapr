@@ -1,12 +1,42 @@
 {% extends "layout.html" %}
-
-{% block sub_header %}
-    <h2>Individual Contribution Percentage Results</h2>
-{% endblock sub_header %}
-
 {% block content %}
-    {% for a in assessment %}
-    <p>{{ a.module_info }}</p>
-    <p><a href="{{ url_for('calculate_mark_run', assessment_id = a.id) }}">Run</a></p>
-    {% endfor %}
+<!--NOT FINISHED YET-->
+<h2 id="BH_title">Individual Contribution Percentage Results</h2>
+
+<div class="BH_group">
+        {% for team in assessment.student_team_list %}
+            <h6 class="BH_group">Team {{team.id}}</h6>
+</div>
+<div class="BH_content">
+    <table>
+        {% for student in team.team_members %}
+        <tr>
+        <th>
+            Student ID
+        </th>
+        <th>
+            Student Name
+        </th>
+        <th>
+            Student Group Mark %
+        </th>
+        </tr>
+        <tr>
+            <td>
+                {{student.id}} 
+            </td>
+            <td>
+                {{student.first_name}} 
+            </td>
+            <td>
+                {{student.last_name}}
+            </td>
+            <td>
+                {{student.team_mark_percentage[0].team_mark_percentage}}
+            </td>
+        {% endfor %} 
+        </tr>
+    </table>
+</div>
+{% endfor %}
 {% endblock content %}
