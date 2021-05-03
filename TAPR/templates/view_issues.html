@@ -1,4 +1,4 @@
-<!-- {% extends "layout.html" %}
+{% extends "layout.html" %}
 
 {% block sub_header %}
     <h2>View Issues</h2>
@@ -6,13 +6,30 @@
 
 {% block content %}
   {% for issue in issues %}
-      <!-- <p>{{ issue.title }}</a></h3> </br>
-          <p class = "pb-3">{{ post.description }}</p>
-          <a href="{{ url_for('post', post_id=post.id) }}"><img class = "blog_pic" src="{{ url_for('static', filename='img/' + post.image_file) }}"></a>
-          <p class = "pt-3">&nbsp by {{ post.user.first_name }} {{ post.user.surname }}</p>
-          <p>Last updated: <span>{{ post.date }}</span></p>
+  <h3>* Team Involved </h3>
+      <p>{{ issue.team_id }}</a></h3> </br>
+
+        <h3>The sudent who made the complaint: </h3>
+          <p class = "pb-3">{{ issue.applicant_id }}</p>
+          <p class = "pb-3">{{ issue.applicant.first_name }}</p>
+          <p class = "pb-3">{{ issue.applicant.last_name }}</p>
+         
+          <h3>The students involved </h3>
+          <p class = "pt-3">&nbsp by {{ issue.students_involved }} 
+            <h3>Type of issue </h3>
+            <ul>
+              <li>1: Unresponsive team members</li>  
+              <li>2: Issues of significant disagreement </li> 
+              <li>3: Bullying or harassment within the team </li> 
+              <li>4: Other</li> 
+            </ul>
+            {{ issue.issue_type }}</p>
+            <h3>Attempts to resolve </h3>
+          <p>{{ issue.attempts_resolve }}</p>
+          <h3>Description of issue </h3>
+          <p class = "pb-3">{{ issue.issue_description }}</p>
+
         </div>
-      </div> -->
-      <!-- <hr class="mt-2 mb-3">
-    {% endfor %}
-{% endblock content %} --> -->
+      </div> 
+  {% endfor %}
+{% endblock content %}
