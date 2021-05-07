@@ -2,7 +2,7 @@
 {% block content %}
 <!--NOT FINISHED YET-->
 <h2 id="BH_title">Individual Contribution Percentage Results</h2>
-
+<a href="{{url_for('calculate_mark_result_csv', assessment_id=1)}}">Export</a>
 <div class="BH_group">
         {% for team in assessment.student_team_list %}
             <h6 class="BH_group">Team {{team.id}}</h6>

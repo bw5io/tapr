@@ -176,6 +176,13 @@ def calculate_mark():
     assessment = Assessment.query.all()
     return render_template("calculate_mark.html", title = "", assessment = assessment)
 
+@app.route('/calculate_mark/assessment/<int:assessment_id>')
+def calculate_mark_assessment(assessment_id):
+    assessment = Assessment.query.filter_by(id=assessment_id).first()
+    if assessment.is_calculated==True:
+        return redirect(url_for("calculate_mark_results", assessment_id = assessment_id))
+    return render_template("calculate_mark_assessment.html", assessment_id = assessment_id)
+
 @app.route('/calculate_mark/criteria/<int:assessment_id>/<int:criteria_id>')
 def calculate_mark_criteria_set(assessment_id, criteria_id):
     option_a = [(130, 110), (70, 100), (30, 80), (0, 0)]
@@ -213,6 +220,9 @@ def calculate_mark_run(assessment_id):
             db.session.commit()
             print(newTMP)
         print(team.id, mark, mean(mark.values()))
+    assessment = Assessment.query.filter_by(id=assessment_id).first()
+    assessment.is_calculated = True
+    db.session.commit()
     return redirect(url_for('calculate_mark_results', assessment_id = assessment_id))
 
 @app.route('/calculate_mark/result/<int:assessment_id>')
@@ -229,7 +239,7 @@ def calculate_mark_result_csv(assessment_id):
         for user in team.team_members:
             current = str(user.team_id)+","+user.first_name+" "+user.last_name+","+str(user.team_mark_percentage[0].team_mark_percentage)
             output.append(current)
-    return render_csv("Team ID, Student Name, Percentage", output)
+    return render_csv("Team ID, Student Name, Percentage", output, non_repr=0, filename="mark.csv")
             
 #Contribution
 @app.route("/contribution", methods=['GET','POST'])
@@ -279,9 +289,11 @@ def contribution():
 
 @app.route("/utility/batch_register")
 def batch_register():
-    assignment = Assessment(id=1,module_info="Who Cares?")
+    assignment = Assessment(id=1,module_info="Test Module 1")
     db.session.add(assignment)
     db.session.commit()
+    user=User(id=1,email="test"+"teacher"+"@test.in",password="Test1234",first_name="Test",last_name="Teacher",assessment_id=1,is_student=0)
+    db.session.add(user)
     for i in range(1001,1099,1):
         print(i)
         user=User(id=i,email="test"+str(i)+"@test.in",password="Test1234",first_name="Test",last_name="Bot"+str(i),assessment_id=1,is_student=1)

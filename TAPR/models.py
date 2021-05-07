@@ -76,6 +76,7 @@ class Assessment(db.Model):
     student_team_list = db.relationship("Team")
     contribution_form_questions = db.relationship("ContributionQuestion")
     band_weighting = db.relationship("BandWeighting")
+    is_calculated = db.Column(db.Boolean, nullable=False, default=False)
     # issue_type = db.relationship("IssueType")
 
 class BandWeighting(db.Model):
