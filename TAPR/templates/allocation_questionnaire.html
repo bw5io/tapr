@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
-
+<head>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
 {% block sub_header %}
-    <h2>Pre-Allocation Questionnaire</h2>
+    <h1 id=JI_Title>Pre-Allocation Questionnaire</h1>
 {% endblock sub_header %}
 
 {% block content %}
@@ -9,7 +11,6 @@
 
     <form action="", method="post" novalidate>
     {{form.csrf_token}}
-       
 
       <!--Drop down box-->
       <p>
@@ -40,14 +41,15 @@
       </p>
 
       <!--Clear button-->
-      <input type="Reset">
-
+      <input id=JI_submit class="JI_Button" type="Reset" value="Reset">
+      
       <!--Submit button-->
       <p>
-        {{ form.submit() }}
+        <input id=JI_submit class="JI_Button" type="submit" value="Submit">
       </p>
 
     </form>
+
 
 
 {% endblock content %}
