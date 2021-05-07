@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block sub_header %}
+    <h2>Individual Contribution Percentage Calculation</h2>
+{% endblock sub_header %}
+
+{% block content %}
+    <p><a href="{{ url_for('calculate_mark_criteria_set', assessment_id = assessment_id, criteria_id=1) }}">Calculating Using Criteria Set A</a></p>
+    <p><a href="{{ url_for('calculate_mark_criteria_set', assessment_id = assessment_id, criteria_id=2) }}">Calculating Using Criteria Set B</a></p>
+    <p>Scheme A</p>
+    <table>
+        <tr>
+            <td></td>
+            <td>Outstanding</td>
+            <td>Adequate</td>
+            <td>Low Contribution</td>
+            <td>No Contribution</td>
+        </tr>
+        <tr>
+            <td>Minimum Calculated Contribution Index</td>
+            <td>130%</td>
+            <td>70%</td>
+            <td>30%</td>
+            <td>0%</td>
+        </tr>
+        <tr>
+            <td>Given Result</td>
+            <td>110%</td>
+            <td>100%</td>
+            <td>80%</td>
+            <td>0%</td>
+            
+        </tr>
+    </table>
+    <p>Scheme B</p>
+    <table>
+        <tr>
+            <td></td>
+            <td>Outstanding</td>
+            <td>Adequate</td>
+            <td>Low Contribution</td>
+            <td>No Contribution</td>
+        </tr>
+        <tr>
+            <td>Minimum Calculated Contribution Index</td>
+            <td>140%</td>
+            <td>80%</td>
+            <td>40%</td>
+            <td>0%</td>
+        </tr>
+        <tr>
+            <td>Given Result</td>
+            <td>110%</td>
+            <td>100%</td>
+            <td>80%</td>
+            <td>0%</td>
+            
+        </tr>
+    </table>
+{% endblock content %}
