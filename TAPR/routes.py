@@ -327,6 +327,9 @@ def reset_user():
     db.session.commit()
     db.session.query(TeamComposition).delete()
     db.session.commit()
+    assessment = Assessment.query.filter_by(id=1).first()
+    assessment.is_calculated = 0
+    db.session.commit()
     flash("Reset completed.")
     return redirect(url_for('home'))
 
@@ -350,6 +353,9 @@ def reset_teams():
     db.session.query(Team).delete()
     db.session.commit()
     db.session.query(TeamComposition).delete()
+    db.session.commit()
+    assessment = Assessment.query.filter_by(id=1).first()
+    assessment.is_calculated = 0
     db.session.commit()
     flash("Teams have been reset.")
     return redirect(url_for('home'))
