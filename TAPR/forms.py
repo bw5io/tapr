@@ -49,7 +49,7 @@ class LaunchMarkingForm(FlaskForm):
 class QuestionnaireForm(FlaskForm):
     native_speaker=BooleanField("Are you a Native Speaker")
     coding_experience=BooleanField("Do you have Coding Experience")
-    degree_program=SelectField("Which is your previous Degree Program: ", choices=[("BA"), ("BSc"), ("LLM"), ("BEng")], coerce=str, validators=[DataRequired()])
+    degree_program = RadioField('Which is your previous Degree Program: ', choices=[("BA"), ("BSc"), ("LLM"), ("BEng")])
     submit = SubmitField("Form Complete")
 
 
