@@ -6,8 +6,8 @@ from flask_admin import Admin
 
 
 app = Flask(__name__)   
-app.config['SECRET_KEY']='2ea381c499e2df1774a2387309e4304579e3184bc143e629'
-app.config['SQLALCHEMY_DATABASE_URI'] ='mysql+pymysql://tapr:cN0I28nru5bYWt9Q@srv1.bw5.in:3306/tapr'
+app.config['SECRET_KEY']=os.environ.get("SECRET_KEY")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URI")
 
 db = SQLAlchemy(app)
 
